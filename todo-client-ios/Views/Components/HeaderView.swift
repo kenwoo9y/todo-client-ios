@@ -2,9 +2,18 @@ import SwiftUI
 
 struct HeaderView: View {
     let title: String
+    @Binding var isShowingSideMenu: Bool
     
     var body: some View {
         HStack {
+            Button(action: {
+                isShowingSideMenu.toggle()
+            }) {
+                Image(systemName: "line.horizontal.3")
+                    .font(.title2)
+                    .foregroundColor(.white)
+            }
+            
             Text(title)
                 .font(.title)
                 .fontWeight(.bold)
@@ -18,5 +27,5 @@ struct HeaderView: View {
 }
 
 #Preview {
-    HeaderView(title: "ToDo App")
+    HeaderView(title: "ToDo App", isShowingSideMenu: .constant(false))
 } 
