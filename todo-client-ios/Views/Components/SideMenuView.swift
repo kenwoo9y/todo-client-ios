@@ -3,6 +3,7 @@ import SwiftUI
 struct SideMenuView: View {
     @Binding var isShowing: Bool
     @StateObject private var viewModel = SideMenuViewModel()
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
@@ -38,18 +39,30 @@ struct SideMenuView: View {
                     
                     // メニュー項目
                     VStack(alignment: .leading, spacing: 15) {
-                        NavigationLink(destination: HomeView()) {
-                            HStack {
-                                Image(systemName: "house.fill")
-                                Text("Home")
+                        if presentationMode.wrappedValue.isPresented {
+                            Button(action: {
+                                isShowing = false
+                            }) {
+                                HStack {
+                                    Image(systemName: "house.fill")
+                                    Text("Home")
+                                }
+                                .foregroundColor(.black)
                             }
-                            .foregroundColor(.black)
+                        } else {
+                            NavigationLink(destination: HomeView()) {
+                                HStack {
+                                    Image(systemName: "house.fill")
+                                    Text("Home")
+                                }
+                                .foregroundColor(.black)
+                            }
                         }
                         
                         NavigationLink(destination: AboutView(isShowingSideMenu: $isShowing)) {
                             HStack {
-                                       Image(systemName: "bubble.left.and.bubble.right.fill")
-        Text("About")
+                                Image(systemName: "bubble.left.and.bubble.right.fill")
+                                Text("About")
                             }
                             .foregroundColor(.black)
                         }
