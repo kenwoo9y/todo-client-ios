@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct FooterView: View {
+    let copyright: String
+
     var body: some View {
         HStack {
             Spacer()
-            Text("© 2024 kenwoo9y")
+            Text(copyright)
                 .font(.caption)
                 .foregroundColor(.white)
             Spacer()
@@ -16,5 +18,5 @@ struct FooterView: View {
 }
 
 #Preview {
-    FooterView()
+    FooterView(copyright: "© 2024 kenwoo9y")
 } 
