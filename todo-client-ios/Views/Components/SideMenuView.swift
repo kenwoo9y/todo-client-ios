@@ -38,7 +38,7 @@ struct SideMenuView: View {
                     
                     // メニュー項目
                     VStack(alignment: .leading, spacing: 15) {
-                        NavigationLink(destination: Text("Home View")) {
+                        NavigationLink(destination: HomeView()) {
                             HStack {
                                 Image(systemName: "house.fill")
                                 Text("Home")
@@ -48,8 +48,8 @@ struct SideMenuView: View {
                         
                         NavigationLink(destination: AboutView(isShowingSideMenu: $isShowing)) {
                             HStack {
-                                Image(systemName: "bubble.left.and.bubble.right.fill")
-                                Text("About")
+                                       Image(systemName: "bubble.left.and.bubble.right.fill")
+        Text("About")
                             }
                             .foregroundColor(.black)
                         }
