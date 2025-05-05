@@ -46,7 +46,7 @@ struct SideMenuView: View {
                             .foregroundColor(.black)
                         }
                         
-                        NavigationLink(destination: AboutView()) {
+                        NavigationLink(destination: AboutView(isShowingSideMenu: $isShowing)) {
                             HStack {
                                 Image(systemName: "bubble.left.and.bubble.right.fill")
                                 Text("About")

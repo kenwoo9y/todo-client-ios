@@ -1,9 +1,16 @@
 import SwiftUI
 
 struct AboutView: View {
+    @Binding var isShowingSideMenu: Bool
+    
     var body: some View {
-        ScrollView {
+        CommonLayout(isShowingSideMenu: $isShowingSideMenu) {
             VStack(alignment: .leading, spacing: 20) {
+                Text("About This ToDo App")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(.bottom, 10)
+                
                 VStack(alignment: .leading, spacing: 15) {
                     Text("Features")
                         .font(.title2)
@@ -30,7 +37,6 @@ struct AboutView: View {
             }
             .padding()
         }
-        .navigationTitle("About This ToDo App")
     }
 }
 
@@ -70,7 +76,5 @@ struct TechRow: View {
 }
 
 #Preview {
-    NavigationView {
-        AboutView()
-    }
-} 
+    AboutView(isShowingSideMenu: .constant(false))
+}
