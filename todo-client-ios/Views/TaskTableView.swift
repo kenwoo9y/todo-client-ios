@@ -21,16 +21,18 @@ struct TaskTableView: View {
             ScrollView {
                 LazyVStack(spacing: 0) {
                     ForEach(taskListViewModel.tasks) { task in
-                        HStack {
-                            Text(task.title)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text(task.dueDate)
-                                .frame(width: 100)
-                            Text(task.status.rawValue)
-                                .frame(width: 80)
+                        NavigationLink(destination: TaskDetailView(task: task)) {
+                            HStack {
+                                Text(task.title)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                Text(task.dueDate)
+                                    .frame(width: 100)
+                                Text(task.status.rawValue)
+                                    .frame(width: 80)
+                            }
+                            .padding()
+                            .background(Color.white)
                         }
-                        .padding()
-                        .background(Color.white)
                         Divider()
                     }
                 }
@@ -40,5 +42,7 @@ struct TaskTableView: View {
 }
 
 #Preview {
-    TaskTableView(taskListViewModel: TaskListViewModel())
+    NavigationView {
+        TaskTableView(taskListViewModel: TaskListViewModel())
+    }
 } 
