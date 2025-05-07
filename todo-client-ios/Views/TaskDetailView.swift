@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TaskDetailView: View {
-    let task: Task
+    let task: ToDoTask
     @StateObject private var sideMenuViewModel = SideMenuViewModel()
     
     var body: some View {
@@ -65,7 +65,7 @@ struct DetailRow: View {
 }
 
 #Preview {
-    TaskDetailView(task: Task(
+    TaskDetailView(task: ToDoTask(
         id: 1,
         title: "Task1",
         description: "Description1",
