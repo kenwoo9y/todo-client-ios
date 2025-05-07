@@ -59,7 +59,7 @@ struct SideMenuView: View {
                             }
                         }
                         
-                        NavigationLink(destination: AboutView(isShowingSideMenu: $isShowing)) {
+                        NavigationLink(destination: AboutView()) {
                             HStack {
                                 Image(systemName: "bubble.left.and.bubble.right.fill")
                                 Text("About")
