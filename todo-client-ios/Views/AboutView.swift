@@ -1,42 +1,41 @@
 import SwiftUI
 
 struct AboutView: View {
-    @StateObject private var sideMenuViewModel = SideMenuViewModel()
-    
     var body: some View {
-        // メインコンテンツ
-        CommonLayout(isShowingSideMenu: $sideMenuViewModel.isShowingSideMenu) {
-            VStack(alignment: .leading, spacing: 20) {
-                Text("About This ToDo App")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.bottom, 10)
-                
-                VStack(alignment: .leading, spacing: 15) {
-                    Text("Features")
-                        .font(.title2)
+        VStack(spacing: 0) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("About This ToDo App")
+                        .font(.title)
                         .fontWeight(.bold)
+                        .padding(.bottom, 10)
                     
-                    FeatureRow(text: "Simple and intuitive task management")
-                    FeatureRow(text: "Easy task creation, editing, and deletion")
-                    FeatureRow(text: "Task completion tracking")
-                    FeatureRow(text: "User-friendly interface")
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Features")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                        
+                        FeatureRow(text: "Simple and intuitive task management")
+                        FeatureRow(text: "Easy task creation, editing, and deletion")
+                        FeatureRow(text: "Task completion tracking")
+                        FeatureRow(text: "User-friendly interface")
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Technical Details")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.top, 10)
+                        
+                        Text("This application is built using the following technologies:")
+                            .padding(.bottom, 5)
+                        
+                        TechRow(icon: "swift", title: "Swift", description: "A powerful and intuitive programming language for iOS development")
+                        TechRow(icon: "swift", title: "SwiftUI", description: "A modern framework for building user interfaces")
+                    }
                 }
-                
-                VStack(alignment: .leading, spacing: 15) {
-                    Text("Technical Details")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .padding(.top, 10)
-                    
-                    Text("This application is built using the following technologies:")
-                        .padding(.bottom, 5)
-                    
-                    TechRow(icon: "swift", title: "Swift", description: "A powerful and intuitive programming language for iOS development")
-                    TechRow(icon: "swift", title: "SwiftUI", description: "A modern framework for building user interfaces")
-                }
+                .padding(.horizontal)
             }
-            .padding()
         }
     }
 }
