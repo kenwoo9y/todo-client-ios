@@ -5,38 +5,33 @@ struct TaskDetailView: View {
     @StateObject private var sideMenuViewModel = SideMenuViewModel()
     
     var body: some View {
-        ZStack {
-            // メインコンテンツ
-            CommonLayout(isShowingSideMenu: $sideMenuViewModel.isShowingSideMenu) {
-                VStack(spacing: 0) {
-                    // ヘッダー
-                    HStack {
-                        Text("項目")
-                            .frame(width: 100, alignment: .leading)
-                            .font(.headline)
-                        Text("内容")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.headline)
-                    }
-                    .padding()
-                    .background(Color.gray.opacity(0.1))
-                    
-                    // テーブル内容
-                    ScrollView {
-                        VStack(spacing: 0) {
-                            DetailRow(title: "タイトル", value: task.title)
-                            DetailRow(title: "詳細", value: task.description)
-                            DetailRow(title: "期日", value: task.dueDate)
-                            DetailRow(title: "ステータス", value: task.status.rawValue)
-                            DetailRow(title: "作成日時", value: formatDate(task.createdAt))
-                            DetailRow(title: "更新日時", value: formatDate(task.updatedAt))
-                        }
+        // メインコンテンツ
+        CommonLayout(isShowingSideMenu: $sideMenuViewModel.isShowingSideMenu) {
+            VStack(spacing: 0) {
+                // ヘッダー
+                HStack {
+                    Text("項目")
+                        .frame(width: 100, alignment: .leading)
+                        .font(.headline)
+                    Text("内容")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .font(.headline)
+                }
+                .padding()
+                .background(Color.gray.opacity(0.1))
+                
+                // テーブル内容
+                ScrollView {
+                    VStack(spacing: 0) {
+                        DetailRow(title: "タイトル", value: task.title)
+                        DetailRow(title: "詳細", value: task.description)
+                        DetailRow(title: "期日", value: task.dueDate)
+                        DetailRow(title: "ステータス", value: task.status.rawValue)
+                        DetailRow(title: "作成日時", value: formatDate(task.createdAt))
+                        DetailRow(title: "更新日時", value: formatDate(task.updatedAt))
                     }
                 }
             }
-            
-            // サイドメニュー
-            SideMenuView(isShowing: $sideMenuViewModel.isShowingSideMenu)
         }
     }
     
