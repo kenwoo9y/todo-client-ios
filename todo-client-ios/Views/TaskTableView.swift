@@ -32,8 +32,16 @@ struct TaskTableView: View {
                             }
                             .padding()
                             .background(Color.white)
+                            .onAppear {
+                                taskListViewModel.loadMoreIfNeeded(currentItem: task)
+                            }
                         }
                         Divider()
+                    }
+                    
+                    if taskListViewModel.isLoading {
+                        ProgressView()
+                            .padding()
                     }
                 }
             }
