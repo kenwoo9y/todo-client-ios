@@ -5,7 +5,7 @@ struct HomeView: View {
     @StateObject private var taskListViewModel = TaskListViewModel()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 // メインコンテンツ
                 CommonLayout(isShowingSideMenu: $sideMenuViewModel.isShowingSideMenu) {

@@ -7,36 +7,44 @@ struct TaskTableView: View {
         VStack(spacing: 0) {
             // ヘッダー
             HStack {
-                Text("タイトル")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text("期日")
-                    .frame(width: 100)
-                Text("ステータス")
-                    .frame(width: 80)
+                Button(action: { taskListViewModel.sort(by: .title) }) {
+                    HStack {
+                        Text("タイトル")
+                        if taskListViewModel.sortKey == .title {
+                            Image(systemName: taskListViewModel.sortOrder == .ascending ? "chevron.up" : "chevron.down")
+                        }
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Button(action: { taskListViewModel.sort(by: .dueDate) }) {
+                    HStack {
+                        Text("期日")
+                        if taskListViewModel.sortKey == .dueDate {
+                            Image(systemName: taskListViewModel.sortOrder == .ascending ? "chevron.up" : "chevron.down")
+                        }
+                    }
+                }
+                .frame(width: 100)
+                
+                Button(action: { taskListViewModel.sort(by: .status) }) {
+                    HStack {
+                        Text("ステータス")
+                        if taskListViewModel.sortKey == .status {
+                            Image(systemName: taskListViewModel.sortOrder == .ascending ? "chevron.up" : "chevron.down")
+                        }
+                    }
+                }
+                .frame(width: 80)
             }
             .padding()
             .background(Color.gray.opacity(0.1))
             
             // タスク一覧
             ScrollView {
-                LazyVStack(spacing: 0) {
+                VStack(spacing: 0) {
                     ForEach(taskListViewModel.tasks) { task in
-                        NavigationLink(destination: TaskDetailView(task: task)) {
-                            HStack {
-                                Text(task.title)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(task.dueDate)
-                                    .frame(width: 100)
-                                Text(task.status.rawValue)
-                                    .frame(width: 80)
-                            }
-                            .padding()
-                            .background(Color.white)
-                            .onAppear {
-                                taskListViewModel.loadMoreIfNeeded(currentItem: task)
-                            }
-                        }
-                        Divider()
+                        TaskRow(task: task, taskListViewModel: taskListViewModel)
                     }
                     
                     if taskListViewModel.isLoading {
@@ -49,8 +57,38 @@ struct TaskTableView: View {
     }
 }
 
+struct TaskRow: View {
+    let task: ToDoTask
+    @ObservedObject var taskListViewModel: TaskListViewModel
+    
+    var body: some View {
+        NavigationLink {
+            TaskDetailView(task: task)
+        } label: {
+            HStack {
+                Text(task.title)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text(task.dueDate)
+                    .frame(width: 100)
+                Text(task.status.rawValue)
+                    .frame(width: 80)
+            }
+            .padding()
+            .background(Color.white)
+            .onAppear {
+                taskListViewModel.loadMoreIfNeeded(currentItem: task)
+            }
+        }
+        .buttonStyle(PlainButtonStyle())
+        .background(Color.white)
+        if task.id != taskListViewModel.tasks.last?.id {
+            Divider()
+        }
+    }
+}
+
 #Preview {
-    NavigationView {
+    NavigationStack {
         TaskTableView(taskListViewModel: TaskListViewModel())
     }
 } 
