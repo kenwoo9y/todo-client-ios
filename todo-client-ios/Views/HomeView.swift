@@ -14,6 +14,17 @@ struct HomeView: View {
                 
                 // サイドメニュー
                 SideMenuView(isShowing: $sideMenuViewModel.isShowingSideMenu)
+                
+                // フローティングアクションボタン
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        FloatingActionButton(action: {
+                            // TODO: タスク登録画面への遷移処理を追加
+                        })
+                    }
+                }
             }
             .navigationBarHidden(true)
         }
