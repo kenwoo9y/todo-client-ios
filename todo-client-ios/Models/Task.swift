@@ -22,7 +22,7 @@ struct ToDoTask: Identifiable, Codable {
     }
 }
 
-enum TaskStatus: String, Codable {
+enum TaskStatus: String, Codable, CaseIterable {
     case todo = "ToDo"
     case doing = "Doing"
     case done = "Done"

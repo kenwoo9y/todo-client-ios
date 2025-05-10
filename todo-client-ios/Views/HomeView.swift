@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var sideMenuViewModel = SideMenuViewModel()
     @StateObject private var taskListViewModel = TaskListViewModel()
+    @State private var isShowingTaskCreate = false
     
     var body: some View {
         NavigationStack {
@@ -20,9 +21,9 @@ struct HomeView: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        FloatingActionButton(action: {
-                            // TODO: タスク登録画面への遷移処理を追加
-                        })
+                        NavigationLink(destination: TaskCreateView()) {
+                            FloatingActionButton()
+                        }
                     }
                 }
             }
