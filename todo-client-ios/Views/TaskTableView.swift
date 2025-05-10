@@ -42,9 +42,12 @@ struct TaskTableView: View {
             
             // タスク一覧
             ScrollView {
-                VStack(spacing: 0) {
+                LazyVStack(spacing: 0) {
                     ForEach(taskListViewModel.tasks) { task in
                         TaskRow(task: task, taskListViewModel: taskListViewModel)
+                        if task.id != taskListViewModel.tasks.last?.id {
+                            Divider()
+                        }
                     }
                     
                     if taskListViewModel.isLoading {
@@ -60,29 +63,73 @@ struct TaskTableView: View {
 struct TaskRow: View {
     let task: ToDoTask
     @ObservedObject var taskListViewModel: TaskListViewModel
+    @State private var offset: CGFloat = 0
+    @State private var isSwiped = false
     
     var body: some View {
-        NavigationLink {
-            TaskDetailView(task: task)
-        } label: {
+        ZStack {
+            // スワイプアクションボタン
             HStack {
-                Text(task.title)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                Spacer()
+                Button {
+                    // 編集アクションは後で実装
+                } label: {
+                    Image(systemName: "pencil")
+                        .foregroundColor(.white)
+                        .frame(width: 40, height: 44)
+                }
+                .background(Color.yellow)
+                
+                Button {
+                    // 削除アクションは後で実装
+                } label: {
+                    Image(systemName: "trash")
+                        .foregroundColor(.white)
+                        .frame(width: 40, height: 44)
+                }
+                .background(Color.red)
+            }
+            
+            // メインコンテンツ
+            HStack {
+                NavigationLink {
+                    TaskDetailView(task: task)
+                } label: {
+                    Text(task.title)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundColor(.primary)
+                }
                 Text(task.dueDate)
                     .frame(width: 100)
                 Text(task.status.rawValue)
                     .frame(width: 80)
             }
             .padding()
+            .frame(height: 44)
             .background(Color.white)
-            .onAppear {
-                taskListViewModel.loadMoreIfNeeded(currentItem: task)
-            }
+            .offset(x: offset)
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        if gesture.translation.width < 0 {
+                            offset = gesture.translation.width
+                        }
+                    }
+                    .onEnded { gesture in
+                        withAnimation {
+                            if gesture.translation.width < -100 {
+                                offset = -100
+                                isSwiped = true
+                            } else {
+                                offset = 0
+                                isSwiped = false
+                            }
+                        }
+                    }
+            )
         }
-        .buttonStyle(PlainButtonStyle())
-        .background(Color.white)
-        if task.id != taskListViewModel.tasks.last?.id {
-            Divider()
+        .onAppear {
+            taskListViewModel.loadMoreIfNeeded(currentItem: task)
         }
     }
 }
