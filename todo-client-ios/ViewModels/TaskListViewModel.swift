@@ -4,7 +4,7 @@ import Foundation
 class TaskListViewModel: ObservableObject {
     @Published var tasks: [ToDoTask] = []
     @Published var isLoading = false
-    @Published var error: String?
+    @Published var error: Error?
     @Published var currentPage = 1
     @Published var hasMorePages = true
     @Published var sortKey: SortKey = .none
@@ -49,35 +49,21 @@ class TaskListViewModel: ObservableObject {
                     applySort()
                 }
             } catch {
-                self.error = error.localizedDescription
+                self.error = error
             }
             isLoading = false
         }
     }
     
-    func fetchTasks() async {
-        guard !isLoading && hasMorePages else { return }
+    func refreshTasks() {
+        // ページネーションの状態をリセット
+        currentPage = 1
+        hasMorePages = true
+        originalTasks = []
+        tasks = []
         
-        isLoading = true
-        error = nil
-        
-        do {
-            let newTasks = try await NetworkService.shared.fetchTasks(page: currentPage, pageSize: pageSize)
-            if newTasks.isEmpty {
-                hasMorePages = false
-            } else {
-                let uniqueNewTasks = newTasks.filter { newTask in
-                    !originalTasks.contains { $0.id == newTask.id }
-                }
-                originalTasks.append(contentsOf: uniqueNewTasks)
-                currentPage += 1
-                applySort()
-            }
-        } catch {
-            self.error = error.localizedDescription
-        }
-        
-        isLoading = false
+        // タスク一覧を再取得
+        loadTasks()
     }
     
     func loadMoreIfNeeded(currentItem: ToDoTask) {

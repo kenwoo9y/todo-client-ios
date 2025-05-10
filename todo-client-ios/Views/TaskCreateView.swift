@@ -2,6 +2,7 @@ import SwiftUI
 
 struct TaskCreateView: View {
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject var taskListViewModel: TaskListViewModel
     @State private var title: String = ""
     @State private var description: String = ""
     @State private var dueDate: Date = Calendar.current.startOfDay(for: Date())
@@ -28,6 +29,7 @@ struct TaskCreateView: View {
                 ownerId: ownerId
             )
             await MainActor.run {
+                taskListViewModel.refreshTasks()
                 dismiss()
             }
         } catch {
@@ -115,5 +117,5 @@ struct TaskCreateView: View {
 }
 
 #Preview {
-    TaskCreateView()
+    TaskCreateView(taskListViewModel: TaskListViewModel())
 } 

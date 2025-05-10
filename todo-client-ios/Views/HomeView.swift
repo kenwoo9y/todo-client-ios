@@ -21,7 +21,7 @@ struct HomeView: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        NavigationLink(destination: TaskCreateView()) {
+                        NavigationLink(destination: TaskCreateView(taskListViewModel: taskListViewModel)) {
                             FloatingActionButton()
                         }
                     }
