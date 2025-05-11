@@ -5,14 +5,13 @@ class TaskListViewModel: ObservableObject {
     @Published var tasks: [ToDoTask] = []
     @Published var isLoading = false
     @Published var error: Error?
-    @Published var currentPage = 1
-    @Published var hasMorePages = true
     @Published var sortKey: SortKey = .none
     @Published var sortOrder: SortOrder = .ascending
     @Published var swipedTaskId: Int?
     
     private let pageSize = 10
-    private var originalTasks: [ToDoTask] = []
+    private var allTasks: [ToDoTask] = []
+    private var currentPage = 1
     
     enum SortKey {
         case none
@@ -31,24 +30,16 @@ class TaskListViewModel: ObservableObject {
     }
     
     private func loadTasks() {
-        guard !isLoading && hasMorePages else { return }
+        guard !isLoading else { return }
         
         isLoading = true
         error = nil
         
         Task {
             do {
-                let newTasks = try await NetworkService.shared.fetchTasks(page: currentPage, pageSize: pageSize)
-                if newTasks.isEmpty {
-                    hasMorePages = false
-                } else {
-                    let uniqueNewTasks = newTasks.filter { newTask in
-                        !originalTasks.contains { $0.id == newTask.id }
-                    }
-                    originalTasks.append(contentsOf: uniqueNewTasks)
-                    currentPage += 1
-                    applySort()
-                }
+                let fetchedTasks = try await NetworkService.shared.fetchTasks()
+                allTasks = fetchedTasks
+                updateDisplayedTasks()
             } catch {
                 self.error = error
             }
@@ -57,20 +48,33 @@ class TaskListViewModel: ObservableObject {
     }
     
     func refreshTasks() {
-        // ページネーションの状態をリセット
         currentPage = 1
-        hasMorePages = true
-        originalTasks = []
+        allTasks = []
         tasks = []
-        
-        // タスク一覧を再取得
         loadTasks()
     }
     
     func loadMoreIfNeeded(currentItem: ToDoTask) {
         let thresholdIndex = tasks.index(tasks.endIndex, offsetBy: -5)
         if tasks.firstIndex(where: { $0.id == currentItem.id }) ?? 0 >= thresholdIndex {
-            loadTasks()
+            currentPage += 1
+            updateDisplayedTasks()
+        }
+    }
+    
+    private func updateDisplayedTasks() {
+        let endIndex = min(currentPage * pageSize, allTasks.count)
+        let displayedTasks = Array(allTasks[0..<endIndex])
+        
+        switch sortKey {
+        case .none:
+            tasks = displayedTasks
+        case .title:
+            tasks = displayedTasks.sorted { sortOrder == .ascending ? $0.title < $1.title : $0.title > $1.title }
+        case .dueDate:
+            tasks = displayedTasks.sorted { sortOrder == .ascending ? $0.dueDate < $1.dueDate : $0.dueDate > $1.dueDate }
+        case .status:
+            tasks = displayedTasks.sorted { sortOrder == .ascending ? $0.status.rawValue < $1.status.rawValue : $0.status.rawValue > $1.status.rawValue }
         }
     }
     
@@ -81,19 +85,6 @@ class TaskListViewModel: ObservableObject {
             sortKey = key
             sortOrder = .ascending
         }
-        applySort()
-    }
-    
-    private func applySort() {
-        switch sortKey {
-        case .none:
-            tasks = originalTasks
-        case .title:
-            tasks = originalTasks.sorted { sortOrder == .ascending ? $0.title < $1.title : $0.title > $1.title }
-        case .dueDate:
-            tasks = originalTasks.sorted { sortOrder == .ascending ? $0.dueDate < $1.dueDate : $0.dueDate > $1.dueDate }
-        case .status:
-            tasks = originalTasks.sorted { sortOrder == .ascending ? $0.status.rawValue < $1.status.rawValue : $0.status.rawValue > $1.status.rawValue }
-        }
+        updateDisplayedTasks()
     }
 } 

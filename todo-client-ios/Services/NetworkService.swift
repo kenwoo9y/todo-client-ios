@@ -11,8 +11,8 @@ class NetworkService {
     static let shared = NetworkService()
     private init() {}
     
-    func fetchTasks(page: Int = 1, pageSize: Int = 10) async throws -> [ToDoTask] {
-        guard let url = URL(string: "\(AppEnvironment.apiURL)/tasks?page=\(page)&page_size=\(pageSize)") else {
+    func fetchTasks() async throws -> [ToDoTask] {
+        guard let url = URL(string: "\(AppEnvironment.apiURL)/tasks") else {
             throw NetworkError.invalidURL
         }
         
