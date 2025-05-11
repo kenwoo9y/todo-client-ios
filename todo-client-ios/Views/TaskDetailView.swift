@@ -4,6 +4,7 @@ struct TaskDetailView: View {
     let task: ToDoTask
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var taskListViewModel: TaskListViewModel
+    @State private var isShowingDeleteAlert = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -30,6 +31,17 @@ struct TaskDetailView: View {
                     DetailRow(title: "更新日時", value: formatDate(task.updatedAt))
                 }
             }
+            
+            // 削除ボタン
+            Button {
+                isShowingDeleteAlert = true
+            } label: {
+                Text("タスクを削除")
+                    .foregroundColor(.red)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+            }
+            .padding()
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -53,6 +65,14 @@ struct TaskDetailView: View {
                 }
             }
         }
+        .deleteTaskAlert(
+            task: task,
+            taskListViewModel: taskListViewModel,
+            isShowing: $isShowingDeleteAlert,
+            onDismiss: {
+                dismiss()
+            }
+        )
     }
     
     private func formatDate(_ dateString: String) -> String {

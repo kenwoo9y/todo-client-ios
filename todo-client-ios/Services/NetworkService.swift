@@ -149,5 +149,10 @@ class NetworkService {
               (200...299).contains(httpResponse.statusCode) else {
             throw NetworkError.serverError("Invalid response")
         }
+
+        // デバッグ用：レスポンスの内容を出力
+        if let httpResponse = response as? HTTPURLResponse {
+            print("Response Status Code: \(httpResponse.statusCode)")
+        }
     }
 } 

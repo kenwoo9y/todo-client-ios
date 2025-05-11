@@ -142,18 +142,14 @@ struct TaskRow: View {
                 }
             }
         }
-        .alert("タスクの削除", isPresented: $isShowingDeleteAlert) {
-            Button("キャンセル", role: .cancel) {
+        .deleteTaskAlert(
+            task: task,
+            taskListViewModel: taskListViewModel,
+            isShowing: $isShowingDeleteAlert,
+            onDismiss: {
                 taskListViewModel.swipedTaskId = nil
             }
-            Button("削除", role: .destructive) {
-                Task {
-                    await taskListViewModel.deleteTask(id: task.id)
-                }
-            }
-        } message: {
-            Text("以下のタスクを削除しますか？\n\n\(task.title)")
-        }
+        )
     }
 }
 
