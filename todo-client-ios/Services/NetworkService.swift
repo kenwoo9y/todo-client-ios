@@ -134,4 +134,20 @@ class NetworkService {
             throw NetworkError.decodingError
         }
     }
+    
+    func deleteTask(id: Int) async throws {
+        guard let url = URL(string: "\(AppEnvironment.apiURL)/tasks/\(id)") else {
+            throw NetworkError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkError.serverError("Invalid response")
+        }
+    }
 } 

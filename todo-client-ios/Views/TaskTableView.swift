@@ -64,6 +64,7 @@ struct TaskRow: View {
     let task: ToDoTask
     @ObservedObject var taskListViewModel: TaskListViewModel
     @State private var offset: CGFloat = 0
+    @State private var isShowingDeleteAlert = false
     
     var body: some View {
         ZStack {
@@ -80,7 +81,7 @@ struct TaskRow: View {
                 .background(Color.yellow)
                 
                 Button {
-                    // 削除アクションは後で実装
+                    isShowingDeleteAlert = true
                 } label: {
                     Image(systemName: "trash")
                         .foregroundColor(.white)
@@ -140,6 +141,18 @@ struct TaskRow: View {
                     offset = 0
                 }
             }
+        }
+        .alert("タスクの削除", isPresented: $isShowingDeleteAlert) {
+            Button("キャンセル", role: .cancel) {
+                taskListViewModel.swipedTaskId = nil
+            }
+            Button("削除", role: .destructive) {
+                Task {
+                    await taskListViewModel.deleteTask(id: task.id)
+                }
+            }
+        } message: {
+            Text("以下のタスクを削除しますか？\n\n\(task.title)")
         }
     }
 }

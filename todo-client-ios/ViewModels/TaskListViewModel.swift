@@ -87,4 +87,19 @@ class TaskListViewModel: ObservableObject {
         }
         updateDisplayedTasks()
     }
+    
+    func deleteTask(id: Int) async {
+        do {
+            try await NetworkService.shared.deleteTask(id: id)
+            await MainActor.run {
+                allTasks.removeAll { $0.id == id }
+                updateDisplayedTasks()
+                swipedTaskId = nil
+            }
+        } catch {
+            await MainActor.run {
+                self.error = error
+            }
+        }
+    }
 } 
