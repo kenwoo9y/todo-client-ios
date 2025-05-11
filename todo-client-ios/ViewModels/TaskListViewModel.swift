@@ -38,12 +38,18 @@ class TaskListViewModel: ObservableObject {
         Task {
             do {
                 let fetchedTasks = try await NetworkService.shared.fetchTasks()
-                allTasks = fetchedTasks
-                updateDisplayedTasks()
+                await MainActor.run {
+                    allTasks = fetchedTasks
+                    updateDisplayedTasks()
+                }
             } catch {
-                self.error = error
+                await MainActor.run {
+                    self.error = error
+                }
             }
-            isLoading = false
+            await MainActor.run {
+                isLoading = false
+            }
         }
     }
     
@@ -92,8 +98,7 @@ class TaskListViewModel: ObservableObject {
         do {
             try await NetworkService.shared.deleteTask(id: id)
             await MainActor.run {
-                allTasks.removeAll { $0.id == id }
-                updateDisplayedTasks()
+                refreshTasks()
                 swipedTaskId = nil
             }
         } catch {
