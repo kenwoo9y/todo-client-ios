@@ -44,6 +44,14 @@ struct TaskDetailView: View {
                     }
                 }
             }
+
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink {
+                    TaskUpdateView(task: task, taskListViewModel: taskListViewModel)
+                } label: {
+                    Text("編集")
+                }
+            }
         }
     }
     
