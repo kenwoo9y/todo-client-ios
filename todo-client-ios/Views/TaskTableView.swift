@@ -64,7 +64,6 @@ struct TaskRow: View {
     let task: ToDoTask
     @ObservedObject var taskListViewModel: TaskListViewModel
     @State private var offset: CGFloat = 0
-    @State private var isSwiped = false
     
     var body: some View {
         ZStack {
@@ -93,7 +92,7 @@ struct TaskRow: View {
             // メインコンテンツ
             HStack {
                 NavigationLink {
-                    TaskDetailView(task: task)
+                    TaskDetailView(task: task, taskListViewModel: taskListViewModel)
                 } label: {
                     Text(task.title)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -119,10 +118,10 @@ struct TaskRow: View {
                         withAnimation {
                             if gesture.translation.width < -100 {
                                 offset = -100
-                                isSwiped = true
+                                taskListViewModel.swipedTaskId = task.id
                             } else {
                                 offset = 0
-                                isSwiped = false
+                                taskListViewModel.swipedTaskId = nil
                             }
                         }
                     }
@@ -130,6 +129,17 @@ struct TaskRow: View {
         }
         .onAppear {
             taskListViewModel.loadMoreIfNeeded(currentItem: task)
+            // スワイプ状態をリセット
+            if taskListViewModel.swipedTaskId != task.id {
+                offset = 0
+            }
+        }
+        .onChange(of: taskListViewModel.swipedTaskId) { newValue in
+            if newValue != task.id {
+                withAnimation {
+                    offset = 0
+                }
+            }
         }
     }
 }

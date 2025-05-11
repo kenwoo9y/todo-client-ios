@@ -9,6 +9,7 @@ class TaskListViewModel: ObservableObject {
     @Published var hasMorePages = true
     @Published var sortKey: SortKey = .none
     @Published var sortOrder: SortOrder = .ascending
+    @Published var swipedTaskId: Int?
     
     private let pageSize = 10
     private var originalTasks: [ToDoTask] = []

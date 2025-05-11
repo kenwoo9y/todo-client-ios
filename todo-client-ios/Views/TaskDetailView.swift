@@ -2,6 +2,8 @@ import SwiftUI
 
 struct TaskDetailView: View {
     let task: ToDoTask
+    @Environment(\.dismiss) private var dismiss
+    @ObservedObject var taskListViewModel: TaskListViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -26,6 +28,20 @@ struct TaskDetailView: View {
                     DetailRow(title: "ステータス", value: task.status.rawValue)
                     DetailRow(title: "作成日時", value: formatDate(task.createdAt))
                     DetailRow(title: "更新日時", value: formatDate(task.updatedAt))
+                }
+            }
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    taskListViewModel.swipedTaskId = nil
+                    dismiss()
+                } label: {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                        Text("戻る")
+                    }
                 }
             }
         }
@@ -70,5 +86,5 @@ struct DetailRow: View {
         ownerId: 1,
         createdAt: "2025-05-06T16:02:00",
         updatedAt: "2025-05-06T16:02:00"
-    ))
+    ), taskListViewModel: TaskListViewModel())
 } 

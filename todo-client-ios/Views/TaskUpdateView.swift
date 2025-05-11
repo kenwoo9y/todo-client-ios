@@ -50,6 +50,7 @@ struct TaskUpdateView: View {
             )
             await MainActor.run {
                 taskListViewModel.refreshTasks()
+                taskListViewModel.swipedTaskId = nil
                 dismiss()
             }
         } catch {
@@ -119,6 +120,7 @@ struct TaskUpdateView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("キャンセル") {
+                        taskListViewModel.swipedTaskId = nil
                         dismiss()
                     }
                 }
