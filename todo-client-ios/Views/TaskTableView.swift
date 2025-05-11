@@ -71,8 +71,8 @@ struct TaskRow: View {
             // スワイプアクションボタン
             HStack {
                 Spacer()
-                Button {
-                    // 編集アクションは後で実装
+                NavigationLink {
+                    TaskUpdateView(task: task, taskListViewModel: taskListViewModel)
                 } label: {
                     Image(systemName: "pencil")
                         .foregroundColor(.white)
