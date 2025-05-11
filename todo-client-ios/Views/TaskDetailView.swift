@@ -27,8 +27,8 @@ struct TaskDetailView: View {
                     DetailRow(title: "詳細", value: task.description)
                     DetailRow(title: "期日", value: task.dueDate)
                     DetailRow(title: "ステータス", value: task.status.rawValue)
-                    DetailRow(title: "作成日時", value: formatDate(task.createdAt))
-                    DetailRow(title: "更新日時", value: formatDate(task.updatedAt))
+                    DetailRow(title: "作成日時", value: formattedCreatedAt)
+                    DetailRow(title: "更新日時", value: formattedUpdatedAt)
                 }
             }
             
@@ -75,14 +75,12 @@ struct TaskDetailView: View {
         )
     }
     
-    private func formatDate(_ dateString: String) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        if let date = formatter.date(from: dateString) {
-            formatter.dateFormat = "yyyy-MM-dd HH:mm"
-            return formatter.string(from: date)
-        }
-        return dateString
+    private var formattedCreatedAt: String {
+        DateUtils.formatDateTime(task.createdAt)
+    }
+    
+    private var formattedUpdatedAt: String {
+        DateUtils.formatDateTime(task.updatedAt)
     }
 }
 
