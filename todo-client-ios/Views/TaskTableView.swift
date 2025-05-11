@@ -134,7 +134,7 @@ struct TaskRow: View {
                 offset = 0
             }
         }
-        .onChange(of: taskListViewModel.swipedTaskId) { newValue in
+        .onChange(of: taskListViewModel.swipedTaskId) { oldValue, newValue in
             if newValue != task.id {
                 withAnimation {
                     offset = 0
