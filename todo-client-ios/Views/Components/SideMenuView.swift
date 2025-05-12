@@ -4,7 +4,7 @@ struct SideMenuView: View {
     @Binding var isShowing: Bool
     @StateObject private var viewModel = SideMenuViewModel()
     @Environment(\.presentationMode) var presentationMode
-    
+
     var body: some View {
         ZStack {
             // 背景のオーバーレイ
@@ -16,7 +16,7 @@ struct SideMenuView: View {
                         isShowing = false
                     }
             }
-            
+
             // サイドメニュー
             HStack {
                 VStack(alignment: .leading, spacing: 20) {
@@ -36,7 +36,7 @@ struct SideMenuView: View {
                         }
                     }
                     .padding(.top, 20)
-                    
+
                     // メニュー項目
                     VStack(alignment: .leading, spacing: 15) {
                         if presentationMode.wrappedValue.isPresented {
@@ -58,7 +58,7 @@ struct SideMenuView: View {
                                 .foregroundColor(.black)
                             }
                         }
-                        
+
                         NavigationLink(destination: AboutView()) {
                             HStack {
                                 Image(systemName: "bubble.left.and.bubble.right.fill")
@@ -67,7 +67,7 @@ struct SideMenuView: View {
                             .foregroundColor(.black)
                         }
                     }
-                    
+
                     Spacer()
                 }
                 .padding()
@@ -76,7 +76,7 @@ struct SideMenuView: View {
                 .edgesIgnoringSafeArea(.bottom)
                 .offset(x: isShowing ? 0 : -250)
                 .animation(.easeInOut, value: isShowing)
-                
+
                 Spacer()
             }
         }
@@ -85,4 +85,4 @@ struct SideMenuView: View {
 
 #Preview {
     SideMenuView(isShowing: .constant(true))
-} 
+}

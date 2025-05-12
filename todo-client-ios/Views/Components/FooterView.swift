@@ -19,4 +19,4 @@ struct FooterView: View {
 
 #Preview {
     FooterView(copyright: "© 2024 kenwoo9y")
-} 
+}

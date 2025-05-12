@@ -7,14 +7,14 @@ struct TaskForm: View {
     @Binding var status: TaskStatus
     @Binding var isShowingDatePicker: Bool
     @Binding var errorMessage: String?
-    
+
     var body: some View {
         Form {
             Section(header: Text("タイトル *")) {
                 TextField("タイトル", text: $title)
                     .textInputAutocapitalization(.never)
             }
-            
+
             Section(header: Text("詳細")) {
                 TextEditor(text: $description)
                     .frame(height: 100)
@@ -23,7 +23,7 @@ struct TaskForm: View {
                             .stroke(Color.gray.opacity(0.2), lineWidth: 1)
                     )
             }
-            
+
             Section(header: Text("期日")) {
                 Button(action: {
                     isShowingDatePicker.toggle()
@@ -41,7 +41,7 @@ struct TaskForm: View {
                         .padding(.vertical, 8)
                 }
             }
-            
+
             Section(header: Text("ステータス *")) {
                 Picker("ステータス", selection: $status) {
                     ForEach(TaskStatus.allCases, id: \.self) { status in
@@ -50,7 +50,7 @@ struct TaskForm: View {
                 }
                 .pickerStyle(.menu)
             }
-            
+
             if let errorMessage = errorMessage {
                 Section {
                     Text(errorMessage)
@@ -70,4 +70,4 @@ struct TaskForm: View {
         isShowingDatePicker: .constant(false),
         errorMessage: .constant(nil)
     )
-} 
+}

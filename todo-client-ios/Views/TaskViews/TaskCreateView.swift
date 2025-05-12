@@ -11,15 +11,15 @@ struct TaskCreateView: View {
     @State private var isShowingDatePicker = false
     @State private var isSaving = false
     @State private var errorMessage: String?
-    
+
     private var isFormValid: Bool {
         !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
-    
+
     private func saveTask() async {
         isSaving = true
         errorMessage = nil
-        
+
         do {
             _ = try await NetworkService.shared.createTask(
                 title: title,
@@ -37,12 +37,12 @@ struct TaskCreateView: View {
                 errorMessage = "タスクの作成に失敗しました。"
             }
         }
-        
+
         await MainActor.run {
             isSaving = false
         }
     }
-    
+
     var body: some View {
         NavigationStack {
             TaskForm(
@@ -61,7 +61,7 @@ struct TaskCreateView: View {
                         dismiss()
                     }
                 }
-                
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("保存") {
                         Task {
@@ -77,4 +77,4 @@ struct TaskCreateView: View {
 
 #Preview {
     TaskCreateView(taskListViewModel: TaskListViewModel())
-} 
+}

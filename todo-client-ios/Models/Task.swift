@@ -9,7 +9,7 @@ struct ToDoTask: Identifiable, Codable {
     let ownerId: Int
     let createdAt: String
     let updatedAt: String
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case title
@@ -26,7 +26,7 @@ enum TaskStatus: String, Codable, CaseIterable {
     case todo = "ToDo"
     case doing = "Doing"
     case done = "Done"
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let rawValue = try container.decode(String.self)
@@ -41,4 +41,4 @@ enum TaskStatus: String, Codable, CaseIterable {
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid status value: \(rawValue)")
         }
     }
-} 
+}

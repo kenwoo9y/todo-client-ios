@@ -6,7 +6,7 @@ struct DeleteTaskAlert: ViewModifier {
     @Binding var isShowing: Bool
     let onDismiss: () -> Void
     @Environment(\.dismiss) private var dismiss
-    
+
     func body(content: Content) -> some View {
         content
             .alert("タスクの削除", isPresented: $isShowing) {
@@ -41,4 +41,4 @@ extension View {
             onDismiss: onDismiss
         ))
     }
-} 
+}

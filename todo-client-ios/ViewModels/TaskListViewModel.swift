@@ -8,33 +8,33 @@ class TaskListViewModel: ObservableObject {
     @Published var sortKey: SortKey = .none
     @Published var sortOrder: SortOrder = .ascending
     @Published var swipedTaskId: Int?
-    
+
     private let pageSize = 10
     private var allTasks: [ToDoTask] = []
     private var currentPage = 1
-    
+
     enum SortKey {
         case none
         case title
         case dueDate
         case status
     }
-    
+
     enum SortOrder {
         case ascending
         case descending
     }
-    
+
     init() {
         loadTasks()
     }
-    
+
     private func loadTasks() {
         guard !isLoading else { return }
-        
+
         isLoading = true
         error = nil
-        
+
         Task {
             do {
                 let fetchedTasks = try await NetworkService.shared.fetchTasks()
@@ -52,14 +52,14 @@ class TaskListViewModel: ObservableObject {
             }
         }
     }
-    
+
     func refreshTasks() {
         currentPage = 1
         allTasks = []
         tasks = []
         loadTasks()
     }
-    
+
     func loadMoreIfNeeded(currentItem: ToDoTask) {
         let thresholdIndex = tasks.index(tasks.endIndex, offsetBy: -5)
         if tasks.firstIndex(where: { $0.id == currentItem.id }) ?? 0 >= thresholdIndex {
@@ -67,11 +67,11 @@ class TaskListViewModel: ObservableObject {
             updateDisplayedTasks()
         }
     }
-    
+
     private func updateDisplayedTasks() {
         let endIndex = min(currentPage * pageSize, allTasks.count)
-        let displayedTasks = Array(allTasks[0..<endIndex])
-        
+        let displayedTasks = Array(allTasks[0 ..< endIndex])
+
         switch sortKey {
         case .none:
             tasks = displayedTasks
@@ -83,7 +83,7 @@ class TaskListViewModel: ObservableObject {
             tasks = displayedTasks.sorted { sortOrder == .ascending ? $0.status.rawValue < $1.status.rawValue : $0.status.rawValue > $1.status.rawValue }
         }
     }
-    
+
     func sort(by key: SortKey) {
         if sortKey == key {
             sortOrder = sortOrder == .ascending ? .descending : .ascending
@@ -93,7 +93,7 @@ class TaskListViewModel: ObservableObject {
         }
         updateDisplayedTasks()
     }
-    
+
     func deleteTask(id: Int) async {
         do {
             try await NetworkService.shared.deleteTask(id: id)
@@ -107,4 +107,4 @@ class TaskListViewModel: ObservableObject {
             }
         }
     }
-} 
+}

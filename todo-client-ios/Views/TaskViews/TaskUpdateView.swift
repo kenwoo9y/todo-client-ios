@@ -4,7 +4,7 @@ struct TaskUpdateView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var taskListViewModel: TaskListViewModel
     let task: ToDoTask
-    
+
     @State private var title: String
     @State private var description: String
     @State private var dueDate: Date
@@ -13,32 +13,32 @@ struct TaskUpdateView: View {
     @State private var isShowingDatePicker = false
     @State private var isSaving = false
     @State private var errorMessage: String?
-    
+
     init(task: ToDoTask, taskListViewModel: TaskListViewModel) {
         self.task = task
         self.taskListViewModel = taskListViewModel
-        
+
         // 日付文字列をDate型に変換
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.timeZone = TimeZone(identifier: "UTC")
         let date = dateFormatter.date(from: task.dueDate) ?? Date()
-        
+
         _title = State(initialValue: task.title)
         _description = State(initialValue: task.description)
         _dueDate = State(initialValue: date)
         _status = State(initialValue: task.status)
         _ownerId = State(initialValue: task.ownerId)
     }
-    
+
     private var isFormValid: Bool {
         !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
-    
+
     private func updateTask() async {
         isSaving = true
         errorMessage = nil
-        
+
         do {
             _ = try await NetworkService.shared.updateTask(
                 id: task.id,
@@ -58,12 +58,12 @@ struct TaskUpdateView: View {
                 errorMessage = "タスクの更新に失敗しました。"
             }
         }
-        
+
         await MainActor.run {
             isSaving = false
         }
     }
-    
+
     var body: some View {
         NavigationStack {
             TaskForm(
@@ -83,7 +83,7 @@ struct TaskUpdateView: View {
                         dismiss()
                     }
                 }
-                
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("更新") {
                         Task {
@@ -111,4 +111,4 @@ struct TaskUpdateView: View {
         ),
         taskListViewModel: TaskListViewModel()
     )
-} 
+}

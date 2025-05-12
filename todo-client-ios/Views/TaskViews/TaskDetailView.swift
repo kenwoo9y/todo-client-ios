@@ -5,7 +5,7 @@ struct TaskDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var taskListViewModel: TaskListViewModel
     @State private var isShowingDeleteAlert = false
-    
+
     var body: some View {
         VStack(spacing: 0) {
             // ヘッダー
@@ -19,7 +19,7 @@ struct TaskDetailView: View {
             }
             .padding()
             .background(Color.gray.opacity(0.1))
-            
+
             // テーブル内容
             ScrollView {
                 VStack(spacing: 0) {
@@ -31,7 +31,7 @@ struct TaskDetailView: View {
                     DetailRow(title: "更新日時", value: formattedUpdatedAt)
                 }
             }
-            
+
             // 削除ボタン
             Button {
                 isShowingDeleteAlert = true
@@ -74,11 +74,11 @@ struct TaskDetailView: View {
             }
         )
     }
-    
+
     private var formattedCreatedAt: String {
         DateUtils.formatDateTime(task.createdAt)
     }
-    
+
     private var formattedUpdatedAt: String {
         DateUtils.formatDateTime(task.updatedAt)
     }
@@ -87,7 +87,7 @@ struct TaskDetailView: View {
 struct DetailRow: View {
     let title: String
     let value: String
-    
+
     var body: some View {
         HStack(alignment: .top) {
             Text(title)
@@ -113,4 +113,4 @@ struct DetailRow: View {
         createdAt: "2025-05-06T16:02:00",
         updatedAt: "2025-05-06T16:02:00"
     ), taskListViewModel: TaskListViewModel())
-} 
+}

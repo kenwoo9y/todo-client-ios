@@ -2,7 +2,7 @@ import SwiftUI
 
 struct TaskTableView: View {
     @ObservedObject var taskListViewModel: TaskListViewModel
-    
+
     var body: some View {
         VStack(spacing: 0) {
             // ヘッダー
@@ -16,7 +16,7 @@ struct TaskTableView: View {
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                
+
                 Button(action: { taskListViewModel.sort(by: .dueDate) }) {
                     HStack {
                         Text("期日")
@@ -26,7 +26,7 @@ struct TaskTableView: View {
                     }
                 }
                 .frame(width: 100)
-                
+
                 Button(action: { taskListViewModel.sort(by: .status) }) {
                     HStack {
                         Text("ステータス")
@@ -39,7 +39,7 @@ struct TaskTableView: View {
             }
             .padding()
             .background(Color.gray.opacity(0.1))
-            
+
             // タスク一覧
             ScrollView {
                 LazyVStack(spacing: 0) {
@@ -49,7 +49,7 @@ struct TaskTableView: View {
                             Divider()
                         }
                     }
-                    
+
                     if taskListViewModel.isLoading {
                         ProgressView()
                             .padding()
@@ -65,7 +65,7 @@ struct TaskRow: View {
     @ObservedObject var taskListViewModel: TaskListViewModel
     @State private var offset: CGFloat = 0
     @State private var isShowingDeleteAlert = false
-    
+
     var body: some View {
         ZStack {
             // スワイプアクションボタン
@@ -79,7 +79,7 @@ struct TaskRow: View {
                         .frame(width: 40, height: 44)
                 }
                 .background(Color.yellow)
-                
+
                 Button {
                     isShowingDeleteAlert = true
                 } label: {
@@ -89,7 +89,7 @@ struct TaskRow: View {
                 }
                 .background(Color.red)
             }
-            
+
             // メインコンテンツ
             HStack {
                 NavigationLink {
@@ -135,7 +135,7 @@ struct TaskRow: View {
                 offset = 0
             }
         }
-        .onChange(of: taskListViewModel.swipedTaskId) { oldValue, newValue in
+        .onChange(of: taskListViewModel.swipedTaskId) { _, newValue in
             if newValue != task.id {
                 withAnimation {
                     offset = 0
@@ -157,4 +157,4 @@ struct TaskRow: View {
     NavigationStack {
         TaskTableView(taskListViewModel: TaskListViewModel())
     }
-} 
+}

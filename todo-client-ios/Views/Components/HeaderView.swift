@@ -3,7 +3,7 @@ import SwiftUI
 struct HeaderView: View {
     let title: String
     @Binding var isShowingSideMenu: Bool
-    
+
     var body: some View {
         HStack {
             Button(action: {
@@ -13,7 +13,7 @@ struct HeaderView: View {
                     .font(.title2)
                     .foregroundColor(.white)
             }
-            
+
             Text(title)
                 .font(.title)
                 .fontWeight(.bold)
@@ -28,4 +28,4 @@ struct HeaderView: View {
 
 #Preview {
     HeaderView(title: "ToDo App", isShowingSideMenu: .constant(false))
-} 
+}
