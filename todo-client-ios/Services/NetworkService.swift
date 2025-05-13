@@ -134,7 +134,7 @@ class NetworkService {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "PATCH"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+
         let taskData = TaskData(
             title: request.title,
             description: request.description,
@@ -142,20 +142,20 @@ class NetworkService {
             dueDate: request.dueDate,
             ownerId: request.ownerId
         )
-        
+
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         let requestBody = try encoder.encode(taskData)
         urlRequest.httpBody = requestBody
-        
+
         // デバッグ用：リクエストの内容を出力
         print("Request URL: \(url)")
         if let requestString = String(data: requestBody, encoding: .utf8) {
             print("Request Body: \(requestString)")
         }
-        
+
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        
+
         // デバッグ用：レスポンスの内容を出力
         if let httpResponse = response as? HTTPURLResponse {
             print("Response Status Code: \(httpResponse.statusCode)")
@@ -163,15 +163,15 @@ class NetworkService {
                 print("Response Body: \(responseString)")
             }
         }
-        
+
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
         }
-        
+
         guard httpResponse.statusCode == 200 else {
             throw NetworkError.serverError(String(httpResponse.statusCode))
         }
-        
+
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         return try decoder.decode(ToDoTask.self, from: data)
