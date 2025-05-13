@@ -23,11 +23,13 @@ struct TaskCreateView: View {
 
         do {
             _ = try await NetworkService.shared.createTask(
-                title: title,
-                description: description,
-                status: status,
-                dueDate: dueDate,
-                ownerId: ownerId
+                NetworkService.TaskCreateRequest(
+                    title: title,
+                    description: description,
+                    status: status,
+                    dueDate: dueDate,
+                    ownerId: ownerId
+                )
             )
             await MainActor.run {
                 taskListViewModel.refreshTasks()

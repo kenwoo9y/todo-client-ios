@@ -1,10 +1,19 @@
 import Foundation
 
+struct TaskData: Codable {
+    let title: String
+    let description: String
+    let status: TaskStatus
+    let dueDate: Date
+    let ownerId: Int
+}
+
 enum NetworkError: Error {
     case invalidURL
     case noData
     case decodingError
     case serverError(String)
+    case invalidResponse
 }
 
 class NetworkService {
@@ -65,7 +74,7 @@ class NetworkService {
         }
 
         guard httpResponse.statusCode == 201 else {
-            throw NetworkError.serverError(httpResponse.statusCode)
+            throw NetworkError.serverError(String(httpResponse.statusCode))
         }
 
         let decoder = JSONDecoder()

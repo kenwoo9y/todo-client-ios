@@ -42,12 +42,14 @@ struct TaskUpdateView: View {
 
         do {
             _ = try await NetworkService.shared.updateTask(
-                id: task.id,
-                title: title,
-                description: description,
-                status: status,
-                dueDate: dueDate,
-                ownerId: ownerId
+                NetworkService.TaskUpdateRequest(
+                    id: task.id,
+                    title: title,
+                    description: description,
+                    status: status,
+                    dueDate: dueDate,
+                    ownerId: ownerId
+                )
             )
             await MainActor.run {
                 taskListViewModel.refreshTasks()
