@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct TaskUpdateView: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
     @ObservedObject var taskListViewModel: TaskListViewModel
     let task: ToDoTask
 

@@ -30,8 +30,16 @@ struct AboutView: View {
                         Text("This application is built using the following technologies:")
                             .padding(.bottom, 5)
 
-                        TechRow(icon: "swift", title: "Swift", description: "A powerful and intuitive programming language for iOS development")
-                        TechRow(icon: "swift", title: "SwiftUI", description: "A modern framework for building user interfaces")
+                        TechRow(
+                            icon: "swift",
+                            title: "Swift",
+                            description: "A powerful and intuitive programming language for iOS development"
+                        )
+                        TechRow(
+                            icon: "swift",
+                            title: "SwiftUI",
+                            description: "A modern framework for building user interfaces"
+                        )
                     }
                 }
                 .padding(.horizontal)
@@ -47,6 +55,7 @@ struct FeatureRow: View {
         HStack(alignment: .top) {
             Image(systemName: "checkmark.circle.fill")
                 .foregroundColor(Color.appPrimary)
+                .accessibilityLabel("完了")
             Text(text)
             Spacer()
         }
@@ -63,6 +72,7 @@ struct TechRow: View {
             HStack {
                 Image(systemName: icon)
                     .foregroundColor(Color.appPrimary)
+                    .accessibilityLabel(title)
                 Text(title)
                     .font(.headline)
             }

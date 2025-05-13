@@ -1,7 +1,7 @@
 import XCTest
 
-final class todo_client_iosUITestsLaunchTests: XCTestCase {
-    override class var runsForEachTargetApplicationUIConfiguration: Bool {
+final class TodoClientIOSUITestsLaunchTests: XCTestCase {
+    override final class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
 

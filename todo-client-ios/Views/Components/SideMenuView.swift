@@ -2,8 +2,7 @@ import SwiftUI
 
 struct SideMenuView: View {
     @Binding var isShowing: Bool
-    @StateObject private var viewModel = SideMenuViewModel()
-    @Environment(\.presentationMode) var presentationMode
+    @State private var selectedTab = 0
 
     var body: some View {
         ZStack {
@@ -15,67 +14,17 @@ struct SideMenuView: View {
                     .onTapGesture {
                         isShowing = false
                     }
+                    .accessibilityAddTraits(.isButton)
+                    .accessibilityLabel("メニューを閉じる")
             }
 
-            // サイドメニュー
+            // メニューコンテンツ
             HStack {
-                VStack(alignment: .leading, spacing: 20) {
-                    // メニューヘッダー
-                    HStack {
-                        Text("Menu")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.black)
-                        Spacer()
-                        Button(action: {
-                            isShowing = false
-                        }) {
-                            Image(systemName: "xmark")
-                                .foregroundColor(.black)
-                                .font(.title2)
-                        }
-                    }
-                    .padding(.top, 20)
-
-                    // メニュー項目
-                    VStack(alignment: .leading, spacing: 15) {
-                        if presentationMode.wrappedValue.isPresented {
-                            Button(action: {
-                                isShowing = false
-                            }) {
-                                HStack {
-                                    Image(systemName: "house.fill")
-                                    Text("Home")
-                                }
-                                .foregroundColor(.black)
-                            }
-                        } else {
-                            NavigationLink(destination: HomeView()) {
-                                HStack {
-                                    Image(systemName: "house.fill")
-                                    Text("Home")
-                                }
-                                .foregroundColor(.black)
-                            }
-                        }
-
-                        NavigationLink(destination: AboutView()) {
-                            HStack {
-                                Image(systemName: "bubble.left.and.bubble.right.fill")
-                                Text("About")
-                            }
-                            .foregroundColor(.black)
-                        }
-                    }
-
-                    Spacer()
-                }
-                .padding()
-                .frame(width: 250)
-                .background(Color.white)
-                .edgesIgnoringSafeArea(.bottom)
-                .offset(x: isShowing ? 0 : -250)
-                .animation(.easeInOut, value: isShowing)
+                MenuContent(isShowing: $isShowing, selectedTab: $selectedTab)
+                    .frame(width: 250)
+                    .background(Color.white)
+                    .offset(x: isShowing ? 0 : -250)
+                    .animation(.easeInOut, value: isShowing)
 
                 Spacer()
             }
@@ -83,6 +32,86 @@ struct SideMenuView: View {
     }
 }
 
+private struct MenuContent: View {
+    @Binding var isShowing: Bool
+    @Binding var selectedTab: Int
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            MenuHeader(isShowing: $isShowing)
+            MenuItems(selectedTab: $selectedTab)
+            Spacer()
+        }
+    }
+}
+
+private struct MenuHeader: View {
+    @Binding var isShowing: Bool
+
+    var body: some View {
+        HStack {
+            Text("Menu")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.black)
+            Spacer()
+            Button(
+                action: {
+                    isShowing = false
+                },
+                label: {
+                    Image(systemName: "xmark")
+                        .foregroundColor(.black)
+                        .font(.title2)
+                        .accessibilityLabel("メニューを閉じる")
+                }
+            )
+        }
+        .padding()
+        .background(Color.gray.opacity(0.1))
+    }
+}
+
+private struct MenuItems: View {
+    @Binding var selectedTab: Int
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            if selectedTab == 0 {
+                NavigationLink(destination: HomeView()) {
+                    HStack {
+                        Image(systemName: "house.fill")
+                            .accessibilityLabel("ホーム")
+                        Text("Home")
+                    }
+                    .foregroundColor(.black)
+                }
+            } else {
+                NavigationLink(destination: HomeView()) {
+                    HStack {
+                        Image(systemName: "house.fill")
+                            .accessibilityLabel("ホーム")
+                        Text("Home")
+                    }
+                    .foregroundColor(.black)
+                }
+            }
+
+            NavigationLink(destination: AboutView()) {
+                HStack {
+                    Image(systemName: "bubble.left.and.bubble.right.fill")
+                        .accessibilityLabel("アバウト")
+                    Text("About")
+                }
+                .foregroundColor(.black)
+            }
+        }
+        .padding()
+    }
+}
+
 #Preview {
-    SideMenuView(isShowing: .constant(true))
+    NavigationStack {
+        SideMenuView(isShowing: .constant(true))
+    }
 }

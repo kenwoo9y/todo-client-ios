@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct todo_client_iosApp: App {
+struct TodoClientIOSApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()

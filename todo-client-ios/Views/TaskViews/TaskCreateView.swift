@@ -1,13 +1,14 @@
 import SwiftUI
 
 struct TaskCreateView: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
     @ObservedObject var taskListViewModel: TaskListViewModel
-    @State private var title: String = ""
-    @State private var description: String = ""
+    @State private var title = ""
+    @State private var description = ""
     @State private var dueDate: Date = Calendar.current.startOfDay(for: Date())
     @State private var status: TaskStatus = .todo
-    @State private var ownerId: Int = 1
+    @State private var ownerId = 1
     @State private var isShowingDatePicker = false
     @State private var isSaving = false
     @State private var errorMessage: String?

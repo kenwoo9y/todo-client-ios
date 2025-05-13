@@ -5,7 +5,8 @@ struct DeleteTaskAlert: ViewModifier {
     let taskListViewModel: TaskListViewModel
     @Binding var isShowing: Bool
     let onDismiss: () -> Void
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
 
     func body(content: Content) -> some View {
         content

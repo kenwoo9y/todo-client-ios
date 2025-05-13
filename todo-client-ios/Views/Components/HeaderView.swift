@@ -6,13 +6,17 @@ struct HeaderView: View {
 
     var body: some View {
         HStack {
-            Button(action: {
-                isShowingSideMenu.toggle()
-            }) {
-                Image(systemName: "line.horizontal.3")
-                    .font(.title2)
-                    .foregroundColor(.white)
-            }
+            Button(
+                action: {
+                    isShowingSideMenu.toggle()
+                },
+                label: {
+                    Image(systemName: "line.horizontal.3")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                        .accessibilityLabel("メニューを開く")
+                }
+            )
 
             Text(title)
                 .font(.title)

@@ -25,16 +25,19 @@ struct TaskForm: View {
             }
 
             Section(header: Text("期日")) {
-                Button(action: {
-                    isShowingDatePicker.toggle()
-                }) {
-                    HStack {
-                        Text("期日")
-                        Spacer()
-                        Text(dueDate.formatted(date: .long, time: .omitted))
-                            .foregroundColor(.gray)
+                Button(
+                    action: {
+                        isShowingDatePicker.toggle()
+                    },
+                    label: {
+                        HStack {
+                            Text("期日")
+                            Spacer()
+                            Text(dueDate.formatted(date: .long, time: .omitted))
+                                .foregroundColor(.gray)
+                        }
                     }
-                }
+                )
                 if isShowingDatePicker {
                     DatePicker("", selection: $dueDate, displayedComponents: [.date])
                         .datePickerStyle(.graphical)
@@ -51,7 +54,7 @@ struct TaskForm: View {
                 .pickerStyle(.menu)
             }
 
-            if let errorMessage = errorMessage {
+            if let errorMessage {
                 Section {
                     Text(errorMessage)
                         .foregroundColor(.red)

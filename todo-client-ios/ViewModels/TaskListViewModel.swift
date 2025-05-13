@@ -5,7 +5,7 @@ class TaskListViewModel: ObservableObject {
     @Published var tasks: [ToDoTask] = []
     @Published var isLoading = false
     @Published var error: Error?
-    @Published var sortKey: SortKey = .none
+    @Published var sortKey: SortKey = .noTasks
     @Published var sortOrder: SortOrder = .ascending
     @Published var swipedTaskId: Int?
 
@@ -14,7 +14,7 @@ class TaskListViewModel: ObservableObject {
     private var currentPage = 1
 
     enum SortKey {
-        case none
+        case noTasks
         case title
         case dueDate
         case status
@@ -73,14 +73,26 @@ class TaskListViewModel: ObservableObject {
         let displayedTasks = Array(allTasks[0 ..< endIndex])
 
         switch sortKey {
-        case .none:
+        case .noTasks:
             tasks = displayedTasks
         case .title:
-            tasks = displayedTasks.sorted { sortOrder == .ascending ? $0.title < $1.title : $0.title > $1.title }
+            tasks = displayedTasks.sorted {
+                sortOrder == .ascending
+                    ? $0.title < $1.title
+                    : $0.title > $1.title
+            }
         case .dueDate:
-            tasks = displayedTasks.sorted { sortOrder == .ascending ? $0.dueDate < $1.dueDate : $0.dueDate > $1.dueDate }
+            tasks = displayedTasks.sorted {
+                sortOrder == .ascending
+                    ? $0.dueDate < $1.dueDate
+                    : $0.dueDate > $1.dueDate
+            }
         case .status:
-            tasks = displayedTasks.sorted { sortOrder == .ascending ? $0.status.rawValue < $1.status.rawValue : $0.status.rawValue > $1.status.rawValue }
+            tasks = displayedTasks.sorted {
+                sortOrder == .ascending
+                    ? $0.status.rawValue < $1.status.rawValue
+                    : $0.status.rawValue > $1.status.rawValue
+            }
         }
     }
 

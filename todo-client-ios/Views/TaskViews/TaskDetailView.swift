@@ -2,7 +2,8 @@ import SwiftUI
 
 struct TaskDetailView: View {
     let task: ToDoTask
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
     @ObservedObject var taskListViewModel: TaskListViewModel
     @State private var isShowingDeleteAlert = false
 
@@ -52,6 +53,7 @@ struct TaskDetailView: View {
                 } label: {
                     HStack {
                         Image(systemName: "chevron.left")
+                            .accessibilityLabel("戻る")
                         Text("戻る")
                     }
                 }

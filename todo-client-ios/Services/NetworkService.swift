@@ -9,7 +9,8 @@ enum NetworkError: Error {
 
 class NetworkService {
     static let shared = NetworkService()
-    private init() {}
+
+    private let baseURL = URL(string: AppEnvironment.apiURL)!
 
     func fetchTasks() async throws -> [ToDoTask] {
         guard let url = URL(string: "\(AppEnvironment.apiURL)/tasks") else {
@@ -25,119 +26,93 @@ class NetworkService {
         }
 
         do {
-            let tasks = try JSONDecoder().decode([ToDoTask].self, from: data)
-            return tasks
+            return try JSONDecoder().decode([ToDoTask].self, from: data)
         } catch {
             throw NetworkError.decodingError
         }
     }
 
-    func createTask(title: String, description: String, status: TaskStatus, dueDate: Date, ownerId: Int) async throws -> ToDoTask {
-        guard let url = URL(string: "\(AppEnvironment.apiURL)/tasks") else {
-            throw NetworkError.invalidURL
-        }
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.timeZone = TimeZone(identifier: "UTC")
-
-        let requestBody: [String: Any] = [
-            "title": title,
-            "description": description,
-            "status": status.rawValue,
-            "due_date": dateFormatter.string(from: dueDate),
-            "owner_id": ownerId,
-        ]
-
-        // デバッグ用：リクエストボディの内容を出力
-        if let jsonData = try? JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted),
-           let jsonString = String(data: jsonData, encoding: .utf8)
-        {
-            print("Request URL: \(url)")
-            print("Request Body: \(jsonString)")
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
-
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        // デバッグ用：レスポンスの内容を出力
-        if let httpResponse = response as? HTTPURLResponse {
-            print("Response Status Code: \(httpResponse.statusCode)")
-            if let responseString = String(data: data, encoding: .utf8) {
-                print("Response Body: \(responseString)")
-            }
-        }
-
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200 ... 299).contains(httpResponse.statusCode)
-        else {
-            throw NetworkError.serverError("Invalid response")
-        }
-
-        do {
-            let task = try JSONDecoder().decode(ToDoTask.self, from: data)
-            return task
-        } catch {
-            throw NetworkError.decodingError
-        }
+    struct TaskCreateRequest {
+        let title: String
+        let description: String
+        let status: TaskStatus
+        let dueDate: Date
+        let ownerId: Int
     }
 
-    func updateTask(id: Int, title: String, description: String, status: TaskStatus, dueDate: Date, ownerId: Int) async throws -> ToDoTask {
-        guard let url = URL(string: "\(AppEnvironment.apiURL)/tasks/\(id)") else {
-            throw NetworkError.invalidURL
+    func createTask(_ request: TaskCreateRequest) async throws -> ToDoTask {
+        let url = baseURL.appendingPathComponent("tasks")
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let taskData = TaskData(
+            title: request.title,
+            description: request.description,
+            status: request.status,
+            dueDate: request.dueDate,
+            ownerId: request.ownerId
+        )
+
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        urlRequest.httpBody = try encoder.encode(taskData)
+
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.invalidResponse
         }
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.timeZone = TimeZone(identifier: "UTC")
-
-        let requestBody: [String: Any] = [
-            "title": title,
-            "description": description,
-            "status": status.rawValue,
-            "due_date": dateFormatter.string(from: dueDate),
-            "owner_id": ownerId,
-        ]
-
-        // デバッグ用：リクエストボディの内容を出力
-        if let jsonData = try? JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted),
-           let jsonString = String(data: jsonData, encoding: .utf8)
-        {
-            print("Request URL: \(url)")
-            print("Request Body: \(jsonString)")
+        guard httpResponse.statusCode == 201 else {
+            throw NetworkError.serverError(httpResponse.statusCode)
         }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "PATCH"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return try decoder.decode(ToDoTask.self, from: data)
+    }
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+    struct TaskUpdateRequest {
+        let id: Int
+        let title: String
+        let description: String
+        let status: TaskStatus
+        let dueDate: Date
+        let ownerId: Int
+    }
 
-        // デバッグ用：レスポンスの内容を出力
-        if let httpResponse = response as? HTTPURLResponse {
-            print("Response Status Code: \(httpResponse.statusCode)")
-            if let responseString = String(data: data, encoding: .utf8) {
-                print("Response Body: \(responseString)")
-            }
+    func updateTask(_ request: TaskUpdateRequest) async throws -> ToDoTask {
+        let url = URL(string: "\(AppEnvironment.apiURL)/tasks/\(request.id)")
+        var urlRequest = URLRequest(url: url!)
+        urlRequest.httpMethod = "PUT"
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let taskData = TaskData(
+            title: request.title,
+            description: request.description,
+            status: request.status,
+            dueDate: request.dueDate,
+            ownerId: request.ownerId
+        )
+
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        urlRequest.httpBody = try encoder.encode(taskData)
+
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.invalidResponse
         }
 
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200 ... 299).contains(httpResponse.statusCode)
-        else {
-            throw NetworkError.serverError("Invalid response")
+        guard httpResponse.statusCode == 200 else {
+            throw NetworkError.serverError(String(httpResponse.statusCode))
         }
 
-        do {
-            let task = try JSONDecoder().decode(ToDoTask.self, from: data)
-            return task
-        } catch {
-            throw NetworkError.decodingError
-        }
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return try decoder.decode(ToDoTask.self, from: data)
     }
 
     func deleteTask(id: Int) async throws {

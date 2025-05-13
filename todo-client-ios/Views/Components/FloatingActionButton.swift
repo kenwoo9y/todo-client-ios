@@ -11,6 +11,7 @@ struct FloatingActionButton: View {
             .shadow(radius: 4)
             .padding(.trailing, 20)
             .padding(.bottom, 20)
+            .accessibilityLabel("新しいタスクを追加")
     }
 }
 
