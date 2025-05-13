@@ -6,6 +6,29 @@ struct TaskData: Codable {
     let status: TaskStatus
     let dueDate: Date
     let ownerId: Int
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case description
+        case status
+        case dueDate = "due_date"
+        case ownerId = "owner_id"
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(title, forKey: .title)
+        try container.encode(description, forKey: .description)
+        try container.encode(status, forKey: .status)
+        try container.encode(ownerId, forKey: .ownerId)
+
+        // 日付をYYYY-MM-DD形式でエンコード（JST）
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
+        let dateString = dateFormatter.string(from: dueDate)
+        try container.encode(dateString, forKey: .dueDate)
+    }
 }
 
 enum NetworkError: Error {
@@ -65,9 +88,24 @@ class NetworkService {
 
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
-        urlRequest.httpBody = try encoder.encode(taskData)
+        let requestBody = try encoder.encode(taskData)
+        urlRequest.httpBody = requestBody
+
+        // デバッグ用：リクエストの内容を出力
+        print("Request URL: \(url)")
+        if let requestString = String(data: requestBody, encoding: .utf8) {
+            print("Request Body: \(requestString)")
+        }
 
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
+
+        // デバッグ用：レスポンスの内容を出力
+        if let httpResponse = response as? HTTPURLResponse {
+            print("Response Status Code: \(httpResponse.statusCode)")
+            if let responseString = String(data: data, encoding: .utf8) {
+                print("Response Body: \(responseString)")
+            }
+        }
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
@@ -92,11 +130,11 @@ class NetworkService {
     }
 
     func updateTask(_ request: TaskUpdateRequest) async throws -> ToDoTask {
-        let url = URL(string: "\(AppEnvironment.apiURL)/tasks/\(request.id)")
-        var urlRequest = URLRequest(url: url!)
-        urlRequest.httpMethod = "PUT"
+        let url = baseURL.appendingPathComponent("tasks/\(request.id)")
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "PATCH"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
+        
         let taskData = TaskData(
             title: request.title,
             description: request.description,
@@ -104,21 +142,36 @@ class NetworkService {
             dueDate: request.dueDate,
             ownerId: request.ownerId
         )
-
+        
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
-        urlRequest.httpBody = try encoder.encode(taskData)
-
+        let requestBody = try encoder.encode(taskData)
+        urlRequest.httpBody = requestBody
+        
+        // デバッグ用：リクエストの内容を出力
+        print("Request URL: \(url)")
+        if let requestString = String(data: requestBody, encoding: .utf8) {
+            print("Request Body: \(requestString)")
+        }
+        
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-
+        
+        // デバッグ用：レスポンスの内容を出力
+        if let httpResponse = response as? HTTPURLResponse {
+            print("Response Status Code: \(httpResponse.statusCode)")
+            if let responseString = String(data: data, encoding: .utf8) {
+                print("Response Body: \(responseString)")
+            }
+        }
+        
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
         }
-
+        
         guard httpResponse.statusCode == 200 else {
             throw NetworkError.serverError(String(httpResponse.statusCode))
         }
-
+        
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         return try decoder.decode(ToDoTask.self, from: data)

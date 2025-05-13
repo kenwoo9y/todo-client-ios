@@ -76,7 +76,7 @@ private struct MenuItems: View {
     @Binding var selectedTab: Int
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: 20) {
             if selectedTab == 0 {
                 NavigationLink(destination: HomeView()) {
                     HStack {
