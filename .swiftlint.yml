@@ -1,8 +1,8 @@
 # Directory and file filters
 included:
-  - todo-client-ios
-  - todo-client-iosTests
-  - todo-client-iosUITests
+  - TodoClientIOS
+  - TodoClientIOSTests
+  - TodoClientIOSUITests
   - Plugins
   - Source
   - Tests

@@ -24,25 +24,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E9C04A2A2DC7C53600D08587 /* todo-client-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "todo-client-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9C04A372DC7C53900D08587 /* todo-client-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "todo-client-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9C04A412DC7C53900D08587 /* todo-client-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "todo-client-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9C04A2A2DC7C53600D08587 /* TodoClientIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TodoClientIOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9C04A372DC7C53900D08587 /* TodoClientIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TodoClientIOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9C04A412DC7C53900D08587 /* TodoClientIOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TodoClientIOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		E9C04A2C2DC7C53600D08587 /* todo-client-ios */ = {
+		E9C04A2C2DC7C53600D08587 /* TodoClientIOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "todo-client-ios";
+			path = "TodoClientIOS";
 			sourceTree = "<group>";
 		};
-		E9C04A3A2DC7C53900D08587 /* todo-client-iosTests */ = {
+		E9C04A3A2DC7C53900D08587 /* TodoClientIOSTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "todo-client-iosTests";
+			path = "TodoClientIOSTests";
 			sourceTree = "<group>";
 		};
-		E9C04A442DC7C53900D08587 /* todo-client-iosUITests */ = {
+		E9C04A442DC7C53900D08587 /* TodoClientIOSUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "todo-client-iosUITests";
+			path = "TodoClientIOSUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -75,9 +75,9 @@
 		E9C04A212DC7C53600D08587 = {
 			isa = PBXGroup;
 			children = (
-				E9C04A2C2DC7C53600D08587 /* todo-client-ios */,
-				E9C04A3A2DC7C53900D08587 /* todo-client-iosTests */,
-				E9C04A442DC7C53900D08587 /* todo-client-iosUITests */,
+				E9C04A2C2DC7C53600D08587 /* TodoClientIOS */,
+				E9C04A3A2DC7C53900D08587 /* TodoClientIOSTests */,
+				E9C04A442DC7C53900D08587 /* TodoClientIOSUITests */,
 				E9C04A2B2DC7C53600D08587 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,9 +85,9 @@
 		E9C04A2B2DC7C53600D08587 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E9C04A2A2DC7C53600D08587 /* todo-client-ios.app */,
-				E9C04A372DC7C53900D08587 /* todo-client-iosTests.xctest */,
-				E9C04A412DC7C53900D08587 /* todo-client-iosUITests.xctest */,
+				E9C04A2A2DC7C53600D08587 /* TodoClientIOS.app */,
+				E9C04A372DC7C53900D08587 /* TodoClientIOSTests.xctest */,
+				E9C04A412DC7C53900D08587 /* TodoClientIOSUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E9C04A292DC7C53600D08587 /* todo-client-ios */ = {
+		E9C04A292DC7C53600D08587 /* TodoClientIOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E9C04A4B2DC7C53900D08587 /* Build configuration list for PBXNativeTarget "todo-client-ios" */;
+			buildConfigurationList = E9C04A4B2DC7C53900D08587 /* Build configuration list for PBXNativeTarget "TodoClientIOS" */;
 			buildPhases = (
 				E9C04A262DC7C53600D08587 /* Sources */,
 				E9C04A272DC7C53600D08587 /* Frameworks */,
@@ -109,18 +109,18 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				E9C04A2C2DC7C53600D08587 /* todo-client-ios */,
+				E9C04A2C2DC7C53600D08587 /* TodoClientIOS */,
 			);
-			name = "todo-client-ios";
+			name = "TodoClientIOS";
 			packageProductDependencies = (
 			);
-			productName = "todo-client-ios";
-			productReference = E9C04A2A2DC7C53600D08587 /* todo-client-ios.app */;
+			productName = "TodoClientIOS";
+			productReference = E9C04A2A2DC7C53600D08587 /* TodoClientIOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E9C04A362DC7C53900D08587 /* todo-client-iosTests */ = {
+		E9C04A362DC7C53900D08587 /* TodoClientIOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E9C04A4E2DC7C53900D08587 /* Build configuration list for PBXNativeTarget "todo-client-iosTests" */;
+			buildConfigurationList = E9C04A4E2DC7C53900D08587 /* Build configuration list for PBXNativeTarget "TodoClientIOSTests" */;
 			buildPhases = (
 				E9C04A332DC7C53900D08587 /* Sources */,
 				E9C04A342DC7C53900D08587 /* Frameworks */,
@@ -132,18 +132,18 @@
 				E9C04A392DC7C53900D08587 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				E9C04A3A2DC7C53900D08587 /* todo-client-iosTests */,
+				E9C04A3A2DC7C53900D08587 /* TodoClientIOSTests */,
 			);
-			name = "todo-client-iosTests";
+			name = "TodoClientIOSTests";
 			packageProductDependencies = (
 			);
-			productName = "todo-client-iosTests";
-			productReference = E9C04A372DC7C53900D08587 /* todo-client-iosTests.xctest */;
+			productName = "TodoClientIOSTests";
+			productReference = E9C04A372DC7C53900D08587 /* TodoClientIOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		E9C04A402DC7C53900D08587 /* todo-client-iosUITests */ = {
+		E9C04A402DC7C53900D08587 /* TodoClientIOSUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E9C04A512DC7C53900D08587 /* Build configuration list for PBXNativeTarget "todo-client-iosUITests" */;
+			buildConfigurationList = E9C04A512DC7C53900D08587 /* Build configuration list for PBXNativeTarget "TodoClientIOSUITests" */;
 			buildPhases = (
 				E9C04A3D2DC7C53900D08587 /* Sources */,
 				E9C04A3E2DC7C53900D08587 /* Frameworks */,
@@ -155,13 +155,13 @@
 				E9C04A432DC7C53900D08587 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				E9C04A442DC7C53900D08587 /* todo-client-iosUITests */,
+				E9C04A442DC7C53900D08587 /* TodoClientIOSUITests */,
 			);
-			name = "todo-client-iosUITests";
+			name = "TodoClientIOSUITests";
 			packageProductDependencies = (
 			);
-			productName = "todo-client-iosUITests";
-			productReference = E9C04A412DC7C53900D08587 /* todo-client-iosUITests.xctest */;
+			productName = "TodoClientIOSUITests";
+			productReference = E9C04A412DC7C53900D08587 /* TodoClientIOSUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -187,7 +187,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E9C04A252DC7C53600D08587 /* Build configuration list for PBXProject "todo-client-ios" */;
+			buildConfigurationList = E9C04A252DC7C53600D08587 /* Build configuration list for PBXProject "TodoClientIOS" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -201,9 +201,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E9C04A292DC7C53600D08587 /* todo-client-ios */,
-				E9C04A362DC7C53900D08587 /* todo-client-iosTests */,
-				E9C04A402DC7C53900D08587 /* todo-client-iosUITests */,
+				E9C04A292DC7C53600D08587 /* TodoClientIOS */,
+				E9C04A362DC7C53900D08587 /* TodoClientIOSTests */,
+				E9C04A402DC7C53900D08587 /* TodoClientIOSUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -279,12 +279,12 @@
 /* Begin PBXTargetDependency section */
 		E9C04A392DC7C53900D08587 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E9C04A292DC7C53600D08587 /* todo-client-ios */;
+			target = E9C04A292DC7C53600D08587 /* TodoClientIOS */;
 			targetProxy = E9C04A382DC7C53900D08587 /* PBXContainerItemProxy */;
 		};
 		E9C04A432DC7C53900D08587 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E9C04A292DC7C53600D08587 /* todo-client-ios */;
+			target = E9C04A292DC7C53600D08587 /* TodoClientIOS */;
 			targetProxy = E9C04A422DC7C53900D08587 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -429,7 +429,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.todo-client-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.TodoClientIOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -457,7 +457,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.todo-client-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.TodoClientIOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -474,12 +474,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.todo-client-iosTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.TodoClientIOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/todo-client-ios.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/todo-client-ios";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodoClientIOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodoClientIOS";
 			};
 			name = Debug;
 		};
@@ -492,12 +492,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.todo-client-iosTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.TodoClientIOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/todo-client-ios.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/todo-client-ios";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodoClientIOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodoClientIOS";
 			};
 			name = Release;
 		};
@@ -508,12 +508,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.todo-client-iosUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.TodoClientIOSUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "todo-client-ios";
+				TEST_TARGET_NAME = "TodoClientIOS";
 			};
 			name = Debug;
 		};
@@ -524,19 +524,19 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.todo-client-iosUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.TodoClientIOSUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "todo-client-ios";
+				TEST_TARGET_NAME = "TodoClientIOS";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E9C04A252DC7C53600D08587 /* Build configuration list for PBXProject "todo-client-ios" */ = {
+		E9C04A252DC7C53600D08587 /* Build configuration list for PBXProject "TodoClientIOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E9C04A492DC7C53900D08587 /* Debug */,
@@ -545,7 +545,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E9C04A4B2DC7C53900D08587 /* Build configuration list for PBXNativeTarget "todo-client-ios" */ = {
+		E9C04A4B2DC7C53900D08587 /* Build configuration list for PBXNativeTarget "TodoClientIOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E9C04A4C2DC7C53900D08587 /* Debug */,
@@ -554,7 +554,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E9C04A4E2DC7C53900D08587 /* Build configuration list for PBXNativeTarget "todo-client-iosTests" */ = {
+		E9C04A4E2DC7C53900D08587 /* Build configuration list for PBXNativeTarget "TodoClientIOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E9C04A4F2DC7C53900D08587 /* Debug */,
@@ -563,7 +563,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E9C04A512DC7C53900D08587 /* Build configuration list for PBXNativeTarget "todo-client-iosUITests" */ = {
+		E9C04A512DC7C53900D08587 /* Build configuration list for PBXNativeTarget "TodoClientIOSUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E9C04A522DC7C53900D08587 /* Debug */,
