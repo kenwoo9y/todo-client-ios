@@ -19,7 +19,6 @@
 --ifdef indent
 --indent 4
 --indentcase false
---importgrouping testable-bottom
 --linebreaks lf
 --maxwidth none
 --octalgrouping 4,8
