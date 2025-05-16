@@ -1,12 +1,16 @@
 import XCTest
 
 final class TodoClientIOSUITestsLaunchTests: XCTestCase {
-    override final class var runsForEachTargetApplicationUIConfiguration: Bool {
+    override static var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
 
     override func setUpWithError() throws {
         continueAfterFailure = false
+    }
+
+    override func tearDownWithError() throws {
+        XCTSkip("No teardown needed")
     }
 
     @MainActor
