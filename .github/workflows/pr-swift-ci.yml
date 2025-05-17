@@ -17,23 +17,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Homebrewのキャッシュを復元
-      - name: Cache Homebrew
-        id: homebrew-cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            /opt/homebrew/Cellar
-            /opt/homebrew/Library/Taps
-          key: ${{ runner.os }}-homebrew-${{ hashFiles('**/Package.swift') }}
-          restore-keys: |
-            ${{ runner.os }}-homebrew-
-
       # ツールのインストール
       - name: Install Tools
-        if: steps.homebrew-cache.outputs.cache-hit != 'true'
-        run: |
-          brew install swiftformat swiftlint
+        run: brew install swiftformat swiftlint
 
       # SwiftFormatの実行
       - name: Run SwiftFormat(Check Only)
