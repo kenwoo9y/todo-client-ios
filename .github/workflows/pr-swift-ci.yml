@@ -51,16 +51,14 @@ jobs:
           path: ~/.mint
           key: mint-${{ hashFiles('Mintfile') }}
 
-      # Mintのパスを設定
-      - name: Setup Mint Path
-        run: |
-          echo "$HOME/.mint/bin" >> $GITHUB_PATH
-          echo "$HOME/.mint/lib" >> $GITHUB_PATH
-
       # SwiftFormatの実行
       - name: Run SwiftFormat(Check Only)
+        env:
+          PATH: ${{ env.PATH }}:$HOME/.mint/bin
         run: mint run swiftformat . --config .swiftformat --dryrun --lint
 
       # SwiftLintの実行
       - name: Run SwiftLint
+        env:
+          PATH: ${{ env.PATH }}:$HOME/.mint/bin
         run: mint run swiftlint --config .swiftlint.yml
