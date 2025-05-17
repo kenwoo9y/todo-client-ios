@@ -17,6 +17,19 @@ xcuserdata/
 timeline.xctimeline
 playground.xcworkspace
 
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode
+*.xcuserstate
+*.xcscmblueprint
+*.moved-aside
+*.xccheckout
+*.xcuserstate
+*.xcscmblueprint
+
 # Swift Package Manager
 #
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
@@ -63,3 +76,6 @@ fastlane/test_output
 
 # Environment variables
 .env
+
+# build
+build
