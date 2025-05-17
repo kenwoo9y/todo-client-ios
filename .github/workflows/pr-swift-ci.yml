@@ -17,13 +17,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Mintのインストール
+      # Mintのキャッシュを復元
+      - name: Cache Mint
+        id: mint-cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.mint
+          key: ${{ runner.os }}-mint-${{ hashFiles('Mintfile') }}
+          restore-keys: |
+            ${{ runner.os }}-mint-
+
+      # Mintのインストール（キャッシュがない場合のみ）
       - name: Install Mint
+        if: steps.mint-cache.outputs.cache-hit != 'true'
         run: brew install mint
 
-      # SwiftLintとSwiftFormatのインストール
-      - name: Install SwiftLint and SwiftFormat
-        run: mint bootstrap
+      # 必要なツールのインストール
+      - name: Install SwiftFormat
+        if: steps.mint-cache.outputs.cache-hit != 'true'
+        run: mint install nicklockwood/SwiftFormat@0.52.11
+
+      - name: Install SwiftLint
+        if: steps.mint-cache.outputs.cache-hit != 'true'
+        run: mint install realm/SwiftLint@0.59.1
 
       # SwiftFormatの実行
       - name: Run SwiftFormat(Check Only)
