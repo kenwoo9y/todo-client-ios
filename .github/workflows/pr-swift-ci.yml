@@ -1,0 +1,34 @@
+name: Swift CI Workflow
+
+on:
+  pull_request:
+    branches: main
+
+defaults:
+  run:
+    working-directory: .  # 作業ディレクトリを指定
+
+jobs:
+  swift-ci:
+    runs-on: macos-latest
+
+    steps:
+      # コードのチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Mintのインストール
+      - name: Install Mint
+        run: brew install mint
+
+      # SwiftLintとSwiftFormatのインストール
+      - name: Install SwiftLint and SwiftFormat
+        run: mint bootstrap
+
+      # SwiftFormatの実行
+      - name: Run SwiftFormat(Check Only)
+        run: mint run swiftformat . --config .swiftformat --dryrun --lint
+
+      # SwiftLintの実行
+      - name: Run SwiftLint
+        run: mint run swiftlint --config .swiftlint.yml
