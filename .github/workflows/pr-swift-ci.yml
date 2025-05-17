@@ -50,6 +50,14 @@ jobs:
         if: steps.mint-cache.outputs.cache-hit != 'true'
         run: mint install realm/SwiftLint@0.59.1
 
+      # キャッシュの保存
+      - name: Save Mint Cache
+        if: steps.mint-cache.outputs.cache-hit != 'true'
+        uses: actions/cache@v3
+        with:
+          path: ~/.mint
+          key: mint-${{ hashFiles('Mintfile') }}
+
       # SwiftFormatの実行
       - name: Run SwiftFormat(Check Only)
         run: mint run swiftformat . --config .swiftformat --dryrun --lint
