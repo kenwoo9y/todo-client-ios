@@ -17,23 +17,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # キャッシュのデバッグ情報
+      - name: Debug Cache
+        run: |
+          echo "Mintfile contents:"
+          cat Mintfile
+          echo "Cache key: mint-${{ hashFiles('Mintfile') }}"
+
       # Mintのキャッシュを復元
       - name: Cache Mint
         id: mint-cache
         uses: actions/cache@v3
         with:
-          path: |
-            ~/.mint
-            /opt/homebrew/bin/mint
-          key: ${{ runner.os }}-mint-${{ hashFiles('Mintfile') }}-${{ hashFiles('**/Package.swift') }}
+          path: ~/.mint
+          key: mint-${{ hashFiles('Mintfile') }}
           restore-keys: |
-            ${{ runner.os }}-mint-${{ hashFiles('Mintfile') }}-
-            ${{ runner.os }}-mint-
+            mint-
 
       # Mintのインストール（キャッシュがない場合のみ）
       - name: Install Mint
         if: steps.mint-cache.outputs.cache-hit != 'true'
-        run: brew install mint
+        run: |
+          brew install mint
+          mint --version
 
       # 必要なツールのインストール
       - name: Install SwiftFormat
