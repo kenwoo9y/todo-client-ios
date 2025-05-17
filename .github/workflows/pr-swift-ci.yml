@@ -22,9 +22,12 @@ jobs:
         id: mint-cache
         uses: actions/cache@v3
         with:
-          path: ~/.mint
-          key: ${{ runner.os }}-mint-${{ hashFiles('Mintfile') }}
+          path: |
+            ~/.mint
+            /opt/homebrew/bin/mint
+          key: ${{ runner.os }}-mint-${{ hashFiles('Mintfile') }}-${{ hashFiles('**/Package.swift') }}
           restore-keys: |
+            ${{ runner.os }}-mint-${{ hashFiles('Mintfile') }}-
             ${{ runner.os }}-mint-
 
       # Mintのインストール（キャッシュがない場合のみ）
