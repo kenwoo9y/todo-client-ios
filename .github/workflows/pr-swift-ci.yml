@@ -17,13 +17,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # キャッシュのデバッグ情報
-      - name: Debug Cache
-        run: |
-          echo "Mintfile contents:"
-          cat Mintfile
-          echo "Cache key: mint-${{ hashFiles('Mintfile') }}"
-
       # Mintのキャッシュを復元
       - name: Cache Mint
         id: mint-cache
