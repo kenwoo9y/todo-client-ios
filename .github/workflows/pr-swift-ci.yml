@@ -32,16 +32,21 @@ jobs:
         if: steps.mint-cache.outputs.cache-hit != 'true'
         run: |
           brew install mint
-          mint --version
+          echo "Mint installed at: $(which mint)"
+          echo "Mint version: $(mint --version)"
 
       # 必要なツールのインストール
       - name: Install SwiftFormat
         if: steps.mint-cache.outputs.cache-hit != 'true'
-        run: mint install nicklockwood/SwiftFormat@0.52.11
+        run: |
+          export PATH="$HOME/.mint/bin:$PATH"
+          mint install nicklockwood/SwiftFormat@0.52.11
 
       - name: Install SwiftLint
         if: steps.mint-cache.outputs.cache-hit != 'true'
-        run: mint install realm/SwiftLint@0.59.1
+        run: |
+          export PATH="$HOME/.mint/bin:$PATH"
+          mint install realm/SwiftLint@0.59.1
 
       # キャッシュの保存
       - name: Save Mint Cache
@@ -51,14 +56,21 @@ jobs:
           path: ~/.mint
           key: mint-${{ hashFiles('Mintfile') }}
 
+      # デバッグ情報の表示
+      - name: Debug Environment
+        run: |
+          echo "PATH: $PATH"
+          echo "Mint binary location: $(which mint || echo 'mint not found')"
+          ls -la ~/.mint/bin || echo "~/.mint/bin not found"
+
       # SwiftFormatの実行
       - name: Run SwiftFormat(Check Only)
-        env:
-          PATH: ${{ env.PATH }}:$HOME/.mint/bin
-        run: mint run swiftformat . --config .swiftformat --dryrun --lint
+        run: |
+          export PATH="$HOME/.mint/bin:$PATH"
+          mint run swiftformat . --config .swiftformat --dryrun --lint
 
       # SwiftLintの実行
       - name: Run SwiftLint
-        env:
-          PATH: ${{ env.PATH }}:$HOME/.mint/bin
-        run: mint run swiftlint --config .swiftlint.yml
+        run: |
+          export PATH="$HOME/.mint/bin:$PATH"
+          mint run swiftlint --config .swiftlint.yml
