@@ -17,60 +17,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Mintのキャッシュを復元
-      - name: Cache Mint
-        id: mint-cache
+      # Homebrewのキャッシュを復元
+      - name: Cache Homebrew
+        id: homebrew-cache
         uses: actions/cache@v3
         with:
-          path: ~/.mint
-          key: mint-${{ hashFiles('Mintfile') }}
+          path: |
+            /opt/homebrew/Cellar
+            /opt/homebrew/Library/Taps
+          key: ${{ runner.os }}-homebrew-${{ hashFiles('**/Package.swift') }}
           restore-keys: |
-            mint-
+            ${{ runner.os }}-homebrew-
 
-      # Mintのインストール（キャッシュがない場合のみ）
-      - name: Install Mint
-        if: steps.mint-cache.outputs.cache-hit != 'true'
+      # ツールのインストール
+      - name: Install Tools
+        if: steps.homebrew-cache.outputs.cache-hit != 'true'
         run: |
-          brew install mint
-          echo "Mint installed at: $(which mint)"
-          echo "Mint version: $(mint --version)"
-
-      # 必要なツールのインストール
-      - name: Install SwiftFormat
-        if: steps.mint-cache.outputs.cache-hit != 'true'
-        run: |
-          export PATH="$HOME/.mint/bin:$PATH"
-          mint install nicklockwood/SwiftFormat@0.52.11
-
-      - name: Install SwiftLint
-        if: steps.mint-cache.outputs.cache-hit != 'true'
-        run: |
-          export PATH="$HOME/.mint/bin:$PATH"
-          mint install realm/SwiftLint@0.59.1
-
-      # キャッシュの保存
-      - name: Save Mint Cache
-        if: steps.mint-cache.outputs.cache-hit != 'true'
-        uses: actions/cache@v3
-        with:
-          path: ~/.mint
-          key: mint-${{ hashFiles('Mintfile') }}
-
-      # デバッグ情報の表示
-      - name: Debug Environment
-        run: |
-          echo "PATH: $PATH"
-          echo "Mint binary location: $(which mint || echo 'mint not found')"
-          ls -la ~/.mint/bin || echo "~/.mint/bin not found"
+          brew install swiftformat swiftlint
 
       # SwiftFormatの実行
       - name: Run SwiftFormat(Check Only)
-        run: |
-          export PATH="$HOME/.mint/bin:$PATH"
-          mint run swiftformat . --config .swiftformat --dryrun --lint
+        run: swiftformat . --config .swiftformat --dryrun --lint
 
       # SwiftLintの実行
       - name: Run SwiftLint
-        run: |
-          export PATH="$HOME/.mint/bin:$PATH"
-          mint run swiftlint --config .swiftlint.yml
+        run: swiftlint --config .swiftlint.yml
