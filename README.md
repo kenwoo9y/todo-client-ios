@@ -74,3 +74,48 @@ This is a ToDo iOS Client built with Swift and SwiftUI, offering a seamless and 
 - Xcode 14.0+
 - Swift 5.7+
 - Homebrew (for installing Mint)
+
+---
+## セットアップ
+### 初期セットアップ
+1. リポジトリをクローン:
+    ```
+    $ git clone https://github.com/kenwoo9y/todo-client-ios.git
+    $ cd todo-client-ios
+    ```
+
+2. Mintと開発ツールをインストール:
+    ```
+    $ brew install mint
+    $ mint bootstrap
+    ```
+
+3. Xcodeでプロジェクトを開く
+
+## 開発
+### テストの実行
+- テストの実行: Xcodeでプロジェクトを開く
+
+### コード品質チェック
+- Lintチェック:
+    ```
+    $ make lint-check
+    ```
+- Lint修正の適用:
+    ```
+    $ make lint-fix
+    ```
+- コードフォーマットチェック:
+    ```
+    $ make format-check
+    ```
+- コードフォーマットの適用:
+    ```
+    $ make format-fix
+    ```
+
+## 要件
+- iOS 15.0+
+- Xcode 14.0+
+- Swift 5.7+
+- Homebrew (Mintのインストール用)
