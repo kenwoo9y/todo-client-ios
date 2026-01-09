@@ -1,4 +1,4 @@
-name: Swift CI Workflow
+name: CI Workflow
 
 on:
   pull_request:
@@ -6,25 +6,21 @@ on:
 
 defaults:
   run:
-    working-directory: .  # 作業ディレクトリを指定
+    working-directory: .
 
 jobs:
-  swift-ci:
+  ci:
     runs-on: macos-latest
 
     steps:
-      # コードのチェックアウト
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ツールのインストール
       - name: Install Tools
         run: brew install swiftformat swiftlint
 
-      # SwiftFormatの実行
       - name: Run SwiftFormat(Check Only)
         run: swiftformat . --config .swiftformat --dryrun --lint
 
-      # SwiftLintの実行
       - name: Run SwiftLint
         run: swiftlint --config .swiftlint.yml
