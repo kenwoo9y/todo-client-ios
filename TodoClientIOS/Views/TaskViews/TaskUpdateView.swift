@@ -19,7 +19,7 @@ struct TaskUpdateView: View {
         self.task = task
         self.taskListViewModel = taskListViewModel
 
-        // 日付文字列をDate型に変換
+        // Convert date string to Date type
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.timeZone = TimeZone(identifier: "UTC")

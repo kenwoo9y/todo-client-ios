@@ -11,16 +11,16 @@ struct CommonLayout<Content: View>: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // ヘッダー
+            // Header
             HeaderView(title: "ToDo App", isShowingSideMenu: $isShowingSideMenu)
 
-            // メインコンテンツエリア
+            // Main content area
             ScrollView {
                 content
             }
             .background(Color.appBackground)
 
-            // フッター
+            // Footer
             FooterView(copyright: "© 2024 kenwoo9y")
         }
     }

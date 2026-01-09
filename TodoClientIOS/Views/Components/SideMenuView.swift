@@ -6,7 +6,7 @@ struct SideMenuView: View {
 
     var body: some View {
         ZStack {
-            // 背景のオーバーレイ
+            // Background overlay
             if isShowing {
                 Color.black
                     .opacity(0.3)
@@ -18,7 +18,7 @@ struct SideMenuView: View {
                     .accessibilityLabel("メニューを閉じる")
             }
 
-            // メニューコンテンツ
+            // Menu content
             HStack {
                 MenuContent(isShowing: $isShowing, selectedTab: $selectedTab)
                     .frame(width: 250)

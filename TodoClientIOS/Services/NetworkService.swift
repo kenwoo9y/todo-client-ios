@@ -22,7 +22,7 @@ struct TaskData: Codable {
         try container.encode(status, forKey: .status)
         try container.encode(ownerId, forKey: .ownerId)
 
-        // 日付をYYYY-MM-DD形式でエンコード（JST）
+        // Encode date to YYYY-MM-DD format (JST)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.timeZone = TimeZone(identifier: "Asia/Tokyo")
@@ -91,7 +91,7 @@ class NetworkService {
         let requestBody = try encoder.encode(taskData)
         urlRequest.httpBody = requestBody
 
-        // デバッグ用：リクエストの内容を出力
+        // Debug: Output request content
         print("Request URL: \(url)")
         if let requestString = String(data: requestBody, encoding: .utf8) {
             print("Request Body: \(requestString)")
@@ -99,7 +99,7 @@ class NetworkService {
 
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
 
-        // デバッグ用：レスポンスの内容を出力
+        // Debug: Output response content
         if let httpResponse = response as? HTTPURLResponse {
             print("Response Status Code: \(httpResponse.statusCode)")
             if let responseString = String(data: data, encoding: .utf8) {
@@ -148,7 +148,7 @@ class NetworkService {
         let requestBody = try encoder.encode(taskData)
         urlRequest.httpBody = requestBody
 
-        // デバッグ用：リクエストの内容を出力
+        // Debug: Output request content
         print("Request URL: \(url)")
         if let requestString = String(data: requestBody, encoding: .utf8) {
             print("Request Body: \(requestString)")
@@ -156,7 +156,7 @@ class NetworkService {
 
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
 
-        // デバッグ用：レスポンスの内容を出力
+        // Debug: Output response content
         if let httpResponse = response as? HTTPURLResponse {
             print("Response Status Code: \(httpResponse.statusCode)")
             if let responseString = String(data: data, encoding: .utf8) {
@@ -193,7 +193,7 @@ class NetworkService {
             throw NetworkError.serverError("Invalid response")
         }
 
-        // デバッグ用：レスポンスの内容を出力
+        // Debug: Output response content
         if let httpResponse = response as? HTTPURLResponse {
             print("Response Status Code: \(httpResponse.statusCode)")
         }
