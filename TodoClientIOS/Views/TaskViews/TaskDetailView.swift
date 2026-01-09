@@ -9,7 +9,7 @@ struct TaskDetailView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // ヘッダー
+            // Header
             HStack {
                 Text("項目")
                     .frame(width: 100, alignment: .leading)
@@ -21,7 +21,7 @@ struct TaskDetailView: View {
             .padding()
             .background(Color.gray.opacity(0.1))
 
-            // テーブル内容
+            // Table content
             ScrollView {
                 VStack(spacing: 0) {
                     DetailRow(title: "タイトル", value: task.title)
@@ -33,7 +33,7 @@ struct TaskDetailView: View {
                 }
             }
 
-            // 削除ボタン
+            // Delete button
             Button {
                 isShowingDeleteAlert = true
             } label: {

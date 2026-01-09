@@ -8,15 +8,15 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // メインコンテンツ
+                // Main content
                 CommonLayout(isShowingSideMenu: $sideMenuViewModel.isShowingSideMenu) {
                     TaskTableView(taskListViewModel: taskListViewModel)
                 }
 
-                // サイドメニュー
+                // Side menu
                 SideMenuView(isShowing: $sideMenuViewModel.isShowingSideMenu)
 
-                // フローティングアクションボタン
+                // Floating action button
                 VStack {
                     Spacer()
                     HStack {
